@@ -20,6 +20,7 @@ public class ProductDAO {
     private static final String updateName = "UPDATE PRODUCTJD set name = ? WHERE ID = ?";
     private static final String updateDescription = "UPDATE PRODUCTJD set description = ? WHERE ID = ?";
     private static final String updatePrice =  "UPDATE PRODUCTJD set price = ? WHERE ID = ?";
+    private static final String deleteProducts = "DELETE FROM PRODUCTJD WHERE ID = ?";
 
     public Product save(Product product) {
         try (Connection connection = getConnection();
@@ -55,22 +56,22 @@ public class ProductDAO {
 
 
 
-    public void update(Product product){
+    public Product update(Product product){
         updateName(product);
         updateDescription(product);
         updatePrice(product);
+        return product;
     }
 
     private void updateName(Product product) {
 
         try (Connection connection = getConnection();
 
-             PreparedStatement preparedStatement = connection.prepareStatement(updateName)) {
+             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE PRODUCTJD set name = ? WHERE ID = ?")) {
 
             preparedStatement.setString(1, product.getName());
             preparedStatement.setLong(2, product.getId());
 
-            PreparedStatement preparedStatement2 = connection.prepareStatement(updateDescription);
             preparedStatement.setString(1, product.getDescription());
             preparedStatement.setLong(2, product.getId());
 
@@ -91,7 +92,7 @@ public class ProductDAO {
 
         try (Connection connection = getConnection();
 
-             PreparedStatement preparedStatement = connection.prepareStatement(updateDescription)) {
+             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE PRODUCTJD set description = ? WHERE ID = ?")) {
             preparedStatement.setString(1, product.getDescription());
             preparedStatement.setLong(2, product.getId());
 
@@ -111,7 +112,7 @@ public class ProductDAO {
 
         try (Connection connection = getConnection();
 
-             PreparedStatement preparedStatement = connection.prepareStatement(updatePrice)) {
+             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE PRODUCTJD set price = ? WHERE ID = ?")) {
             preparedStatement.setInt(1, product.getPrice());
             preparedStatement.setLong(2, product.getId());
 
@@ -157,9 +158,28 @@ public class ProductDAO {
 
 
 
-    public Product delete(long id) {
-        return null;
+    public void delete(long id) {
+
+        try (Connection connection = getConnection();
+
+             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM PRODUCTJD WHERE ID = ?")) {
+
+
+            preparedStatement.setLong(1, id);
+
+
+            int res = preparedStatement.executeUpdate();
+            System.out.println("Save was finished with result " + res);
+
+        }
+        catch (SQLException e) {
+            System.err.println("Something went wrong");
+
+            e.printStackTrace();
+        }
     }
+
+
 
 
     private Connection getConnection() throws SQLException {
