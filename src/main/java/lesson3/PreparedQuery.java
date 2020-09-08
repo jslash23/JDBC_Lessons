@@ -17,23 +17,22 @@ public class PreparedQuery {
     private static final String PASS = "db123slash22";
 
 
-    private static final String queryTestSavePerf = "INSERT INTO TEST_SPEED (SOME_STRING, SOME_NUMBER) VALUES (?, ?)";
-
-    private static final String queryCreateSequence = "CREATE SEQUENCE NEW_TS_SEQUENCE";
-
     private static final String queryCreateTable = "CREATE TABLE TEST_SPEED" +
             "(ID NUMBER NOT NULL," +
             "SOME_STRING NVARCHAR2(1000) NOT NULL," +
             "SOME_NUMBER NUMBER(7,0) NOT NULL," +
             " PRIMARY KEY(ID))";
 
-    private static final String queryDropTable = "DROP TABLE TEST_SPEED";
+    private static final String queryTestSavePerf = "INSERT INTO TEST_SPEED (SOME_STRING, SOME_NUMBER) VALUES (?, ?)";
+
+    private static final String queryCreateSequence = "CREATE SEQUENCE NEW_TS_SEQUENCE";
 
     private static final String queryCreateTriggers = "CREATE OR REPLACE TRIGGER NEW_TS_TRIGGER" +
             " BEFORE INSERT ON TEST_SPEED" +
             "FOR EACH ROW" + "BEGIN" + "SELECT NEW_TS_SEQUENCE.nextval" +
-            "INTO :new.id" + " FROM dual;" + "END)";
+            "INTO :new.id" + " FROM dual;" + "END";
 
+    private static final String queryDropTable = "DROP TABLE TEST_SPEED";
     private static final String queryDeletePerf = "TRUNCATE TABLE TEST_SPEED";
     private static final String querySelectAllPerf = "SELECT * FROM  TEST_SPEED";
 
@@ -95,8 +94,8 @@ public class PreparedQuery {
 
         for (int i = 1; i < 1001; i++) {
 
-            //createSequense();
-            //createTriggers();
+            createSequense();
+            createTriggers();
 
             try (Connection connection = getConnection();
                  PreparedStatement preparedStatement = connection.prepareStatement(queryTestSavePerf)) {
@@ -241,5 +240,5 @@ public class PreparedQuery {
         return DriverManager.getConnection(DB_URL, USER, PASS);
 
     }
-
 }
+
