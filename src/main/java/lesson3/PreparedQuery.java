@@ -6,14 +6,10 @@ import java.util.List;
 
 public class PreparedQuery {
 
-
-    //CRUD
-    //create, read, update, delete
-
     private static final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";//1
     private static final String DB_URL = "jdbc:oracle:thin:@sl22-database1.cshzc28zzyct.us-east-2.rds.amazonaws.com:1521:ORCL";
 
-    //
+
     private static final String USER = "main";
     private static final String PASS = "db123slash22";
 
@@ -26,7 +22,7 @@ public class PreparedQuery {
 
     private static final String querySelectById =  "SELECT * FROM TEST_SPEED WHERE ID = ?";
 
-    private static final String queryDeleteById = " DELETE * FROM TEST_SPEED WHERE ID = ? ";
+    private static final String queryDeleteById = " DELETE  FROM TEST_SPEED WHERE ID = ? ";
 
     private static final String queryTestSavePerf = "INSERT INTO TEST_SPEED (SOME_STRING, SOME_NUMBER) VALUES (?, ?)";
 
@@ -43,20 +39,10 @@ public class PreparedQuery {
             " INTO :new.id " +
             " FROM dual; ";
 
-   /* CREATE OR REPLACE TRIGGER NEW_TS_TRIGGER1
-    BEFORE INSERT ON TEST_SPEED
-    FOR EACH ROW
-            BEGIN
-    SELECT sequence1.nextval
-    INTO :new.id
-    FROM dual;
-    END;*/
-
     private static final String queryDropSequence = " DROP SEQUENCE sequence1 ";
     private static final String queryDropTrigger = " DROP TRIGGER NEW_TS_TRIGGER1 ";
 
     private static final String queryDropTable = "DROP TABLE TEST_SPEED";
-
 
 
     private static final String queryEndLoop = " END LOOP; ";
@@ -148,19 +134,18 @@ public class PreparedQuery {
 
 
         long startTime = System.currentTimeMillis();
-        //createSequense();
-        //createTriggers();
+        createSequense();
+        createTriggers();
 
         for (int i = 1; i < 1001; i++) {
 
             try (Connection connection = getConnection();
+
+
                  PreparedStatement preparedStatement = connection.prepareStatement(queryTestSavePerf)) {
 
                 preparedStatement.setString(1, getNewString(20));//длина строки 20 символов
                 preparedStatement.setInt(2, getNewNumber());
-
-                //preparedStatement.setNull(1,Types.INTEGER);
-                //preparedStatement.addBatch();
 
                 int res = preparedStatement.executeUpdate();
 
@@ -195,7 +180,6 @@ public class PreparedQuery {
 
     public void createTriggers() {
         StringBuffer sql = new StringBuffer(queryCreateTriggers);
-        //sql.append(fromDual);
         sql.append(queryEnd);
 
         try (Connection connection = getConnection();
@@ -219,7 +203,7 @@ public class PreparedQuery {
 
         try (Connection connection = getConnection();
 
-             PreparedStatement preparedStatement = connection.prepareStatement(" DELETE  FROM TEST_SPEED WHERE ID = ? ")) {
+             PreparedStatement preparedStatement = connection.prepareStatement(queryDeleteById)) {
 
             for (int i = 1; i < 1001; i++) {
 
@@ -349,6 +333,5 @@ public class PreparedQuery {
             System.out.println("Total execution time: " + (endTime - startTime) + "ms");
 
         }
-
 }
 

@@ -28,7 +28,7 @@ public class Demo {
        // preparedQuery.createSequense();//java.sql.SQLSyntaxErrorException: ORA-00955: имя уже задействовано для существующего объекта
         //preparedQuery.createTriggers();//java.sql.SQLException: В индексе отсутствует параметр IN или OUT:: 1
 
-      //preparedQuery.testDeleteByIdPerformance();
+      preparedQuery.testDeleteByIdPerformance();
         //preparedQuery.testDeletePerformance();
 
        //preparedQuery.dropTable();
