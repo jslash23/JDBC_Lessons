@@ -6,6 +6,7 @@ import java.util.List;
 
 public class PreparedQuery {
 
+
     //CRUD
     //create, read, update, delete
 
@@ -23,16 +24,44 @@ public class PreparedQuery {
             "SOME_NUMBER NUMBER(7,0) NOT NULL," +
             " PRIMARY KEY(ID))";
 
+    private static final String querySelectById =  "SELECT * FROM TEST_SPEED WHERE ID = ?";
+
+    private static final String queryDeleteById = " DELETE * FROM TEST_SPEED WHERE ID = ? ";
+
     private static final String queryTestSavePerf = "INSERT INTO TEST_SPEED (SOME_STRING, SOME_NUMBER) VALUES (?, ?)";
 
-    private static final String queryCreateSequence = "CREATE SEQUENCE NEW_TS_SEQUENCE";
+    private static final String queryCreateSequence = "CREATE SEQUENCE sequence1" +
+            " START WITH 1" +
+            "INCREMENT BY 1" +
+            "CACHE 1001";
 
-    private static final String queryCreateTriggers = "CREATE OR REPLACE TRIGGER NEW_TS_TRIGGER" +
-            " BEFORE INSERT ON TEST_SPEED" +
-            "FOR EACH ROW" + "BEGIN" + "SELECT NEW_TS_SEQUENCE.nextval" +
-            "INTO :new.id" + " FROM dual;" + "END";
+    private static final String queryCreateTriggers = " CREATE OR REPLACE  TRIGGER NEW_TS_TRIGGER1 " +
+            " BEFORE CREATE  ON TEST_SPEED " +
+            " FOR EACH ROW " +
+            " BEGIN " +
+            " select sequence1.nextval " +
+            " INTO :new.id " +
+            " FROM dual; ";
+
+   /* CREATE OR REPLACE TRIGGER NEW_TS_TRIGGER1
+    BEFORE INSERT ON TEST_SPEED
+    FOR EACH ROW
+            BEGIN
+    SELECT sequence1.nextval
+    INTO :new.id
+    FROM dual;
+    END;*/
+
+    private static final String queryDropSequence = " DROP SEQUENCE sequence1 ";
+    private static final String queryDropTrigger = " DROP TRIGGER NEW_TS_TRIGGER1 ";
 
     private static final String queryDropTable = "DROP TABLE TEST_SPEED";
+
+
+
+    private static final String queryEndLoop = " END LOOP; ";
+    private static final String queryEnd = " END;";
+
     private static final String queryDeletePerf = "TRUNCATE TABLE TEST_SPEED";
     private static final String querySelectAllPerf = "SELECT * FROM  TEST_SPEED";
 
@@ -40,7 +69,6 @@ public class PreparedQuery {
     public void createTable() {
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(queryCreateTable)) {
-
 
             //1.DB Driver совместимость джавы с базой данніх которую мы используем +
             //2.Create connection  создаем соединение, используем его и закрываем его иначе если все будут +
@@ -77,6 +105,34 @@ public class PreparedQuery {
         }
     }
 
+    public void dropSequence() {
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(queryDropSequence)) {
+
+            int res = preparedStatement.executeUpdate();
+
+            System.out.println("DropSequence  was finished with result " + res);
+
+        } catch (SQLException e) {
+            System.err.println("Something went wrong");
+            e.printStackTrace();
+        }
+    }
+
+    public void dropTrigger() {
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(queryDropTrigger)) {
+
+            int res = preparedStatement.executeUpdate();
+
+            System.out.println("DropTrigger was finished with result " + res);
+
+        } catch (SQLException e) {
+            System.err.println("Something went wrong");
+            e.printStackTrace();
+        }
+    }
+
     public void testSavePerformance() {
 
         //Добавить 1000 записей в таблицу TEST_SPEED  с произвольными значением
@@ -90,12 +146,12 @@ public class PreparedQuery {
         //для генерации текста в колонке SOME_STRING используем метод произвольной генерации текста
         //для генерации цены в колонке SOME_NUMBER используем метод произвольной генерации чисел от 1 до 1000
 
+
         long startTime = System.currentTimeMillis();
+        //createSequense();
+        //createTriggers();
 
         for (int i = 1; i < 1001; i++) {
-
-            createSequense();
-            createTriggers();
 
             try (Connection connection = getConnection();
                  PreparedStatement preparedStatement = connection.prepareStatement(queryTestSavePerf)) {
@@ -121,7 +177,7 @@ public class PreparedQuery {
         System.out.println("Total execution time: " + (endTime - startTime) + "ms");
     }
 
-    private void createSequense() {
+    public void createSequense() {
         try (Connection connection = getConnection();
 
              PreparedStatement preparedStatement = connection.prepareStatement(queryCreateSequence)) {
@@ -137,21 +193,50 @@ public class PreparedQuery {
         }
     }
 
-    private void createTriggers() {
+    public void createTriggers() {
+        StringBuffer sql = new StringBuffer(queryCreateTriggers);
+        //sql.append(fromDual);
+        sql.append(queryEnd);
 
         try (Connection connection = getConnection();
 
-             PreparedStatement preparedStatement = connection.prepareStatement(queryCreateTriggers)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(sql.toString())) {
 
             int res = preparedStatement.executeUpdate();
 
             System.out.println("Trigers was created with result " + res);
 
         } catch (SQLException e) {
-            System.err.println(" In metod" + "createTriggers" + "Something went wrong");
+            System.err.println("In metod " + "createTriggers " + "something went wrong");
 
             e.printStackTrace();
         }
+    }
+
+    public void testDeleteByIdPerformance() {
+
+        long startTime = System.currentTimeMillis();
+
+        try (Connection connection = getConnection();
+
+             PreparedStatement preparedStatement = connection.prepareStatement(" DELETE  FROM TEST_SPEED WHERE ID = ? ")) {
+
+            for (int i = 1; i < 1001; i++) {
+
+                preparedStatement.setLong(1, i);
+                preparedStatement.executeUpdate();
+                System.out.println(i);
+            }
+        }catch (SQLException e) {
+            System.err.println("Something went wrong");
+
+            e.printStackTrace();
+        }
+
+
+        long endTime = System.currentTimeMillis();
+        System.out.println("Total execution time: " + (endTime - startTime) + "ms");
+
     }
 
     private Integer getNewNumber() {
@@ -240,5 +325,30 @@ public class PreparedQuery {
         return DriverManager.getConnection(DB_URL, USER, PASS);
 
     }
+
+    public void testSelectByIdPerformance() {
+        long startTime = System.currentTimeMillis();
+            try (Connection connection = getConnection();
+
+                 PreparedStatement preparedStatement = connection.prepareStatement(querySelectById)) {
+
+                for (int i = 1; i < 1001; i++) {
+
+                    preparedStatement.setLong(1, i);
+                    preparedStatement.executeUpdate();
+                    System.out.println(i++);
+                }
+            }catch (SQLException e) {
+                System.err.println("Something went wrong");
+
+                e.printStackTrace();
+            }
+
+
+            long endTime = System.currentTimeMillis();
+            System.out.println("Total execution time: " + (endTime - startTime) + "ms");
+
+        }
+
 }
 
