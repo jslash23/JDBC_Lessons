@@ -23,24 +23,16 @@ public class Demo {
         //System.out.println(solutionOLd.findProductsByPrice());
         //System.out.println(solutionOLd.findProductsWithEmptyDescription());
 
-      //solution.createTable();
-   solution.testSavePerformance();
-        //solution.testSavePerformanceOld();
-       //solution.createSequense();//java.sql.SQLSyntaxErrorException: ORA-00955: имя уже задействовано для существующего объекта
-       // solution.createTriggers();//java.sql.SQLException: В индексе отсутствует параметр IN или OUT:: 1
+        //solution.createTable();
+        solution.testSavePerformance();
 
-     //solution.testDeleteByIdPerformance();
-        //solution.testDeletePerformance();
+        solution.testDeleteByIdPerformance();
+        solution.testDeletePerformance();
 
-       //solution.dropTable();
-        //solution.dropSequence();
-      //solution.dropTrigger();
 
-        //solution.testSelectPerformance();
+        solution.testSelectPerformance();
 
-       // solution.testSelectByIdPerformance();
-
-        // Я несколько дней воюю с триггером в SQL запрос работает а в Идее не хочет, кидает ошибку.
+        solution.testSelectByIdPerformance();
     }
 }
 
