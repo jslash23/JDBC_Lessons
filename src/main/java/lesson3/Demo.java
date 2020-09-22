@@ -3,8 +3,8 @@ package lesson3;
 public class Demo {
     public static void main(String[] args) {
         ProductDAO productDAO = new ProductDAO();
+        SolutionOLd solutionOLd = new SolutionOLd();
         Solution solution = new Solution();
-        PreparedQuery preparedQuery = new PreparedQuery();
         Product product = new Product(11, "testJKHH", "test description JHJHJHJH", 100);
         Product product2 = new Product(10, "test_new", "some data description", 250);
 
@@ -20,24 +20,25 @@ public class Demo {
         //Удаляем элемент который есть в базе, элемент так же находим по id
         //productDAO.delete(10); //если по такому id в базе нет элементов то ничего не делаем
 
-        //System.out.println(solution.findProductsByPrice());
-        //System.out.println(solution.findProductsWithEmptyDescription());
+        //System.out.println(solutionOLd.findProductsByPrice());
+        //System.out.println(solutionOLd.findProductsWithEmptyDescription());
 
-      //preparedQuery.createTable();
-     // preparedQuery.testSavePerformance();
-       // preparedQuery.createSequense();//java.sql.SQLSyntaxErrorException: ORA-00955: имя уже задействовано для существующего объекта
-        //preparedQuery.createTriggers();//java.sql.SQLException: В индексе отсутствует параметр IN или OUT:: 1
+      //solution.createTable();
+   solution.testSavePerformance();
+        //solution.testSavePerformanceOld();
+       //solution.createSequense();//java.sql.SQLSyntaxErrorException: ORA-00955: имя уже задействовано для существующего объекта
+       // solution.createTriggers();//java.sql.SQLException: В индексе отсутствует параметр IN или OUT:: 1
 
-      preparedQuery.testDeleteByIdPerformance();
-        //preparedQuery.testDeletePerformance();
+     //solution.testDeleteByIdPerformance();
+        //solution.testDeletePerformance();
 
-       //preparedQuery.dropTable();
-        //preparedQuery.dropSequence();
-       // preparedQuery.dropTrigger();
+       //solution.dropTable();
+        //solution.dropSequence();
+      //solution.dropTrigger();
 
-        //  System.out.println(preparedQuery.testSelectPerformance());
+        //solution.testSelectPerformance();
 
-        //preparedQuery.testSelectByIdPerformance();
+       // solution.testSelectByIdPerformance();
 
         // Я несколько дней воюю с триггером в SQL запрос работает а в Идее не хочет, кидает ошибку.
     }
