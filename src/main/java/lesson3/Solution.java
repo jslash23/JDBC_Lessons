@@ -26,25 +26,7 @@ public class Solution {
 
     private static final String queryTestSavePerf = "INSERT INTO TEST_SPEED  VALUES (?, ?, ?)";
 
-    private static final String queryTestSavePerfOld = " INSERT INTO TEST_SPEED (SOME_STRING, SOME_NUMBER) VALUES (?, ?) ";
-
-
-    private static final String queryCreateTriggers = " CREATE OR REPLACE  TRIGGER NEW_TS_TRIGGER1 " +
-            " BEFORE CREATE  ON TEST_SPEED " +
-            " FOR EACH ROW " +
-            " BEGIN " +
-            " select sequence1.nextval " +
-            " INTO :new.id " +
-            " FROM dual; ";
-
-    private static final String queryDropSequence = " DROP SEQUENCE sequence1 ";
-    private static final String queryDropTrigger = " DROP TRIGGER NEW_TS_TRIGGER1 ";
-
     private static final String queryDropTable = "DROP TABLE TEST_SPEED";
-
-
-    private static final String queryEndLoop = " END LOOP; ";
-    private static final String queryEnd = " END;";
 
     private static final String queryDeletePerf = "TRUNCATE TABLE TEST_SPEED";
     private static final String querySelectAllPerf = "SELECT * FROM  TEST_SPEED";
