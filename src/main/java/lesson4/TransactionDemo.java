@@ -43,10 +43,10 @@ public class TransactionDemo {
     private static final String deleteProducts = "DELETE FROM PRODUCTJD WHERE ID = ?";
 
     public static void main(String[] args) {
-        Product product1 = new Product(55, "11111", "test description 1", 555);
-        Product product2 = new Product(75, "11111", " description 2", 478);
-        Product product3 = new Product(85, "11111", " description 3", 478 );
-        ArrayList<Product> products =  new ArrayList<>();
+        Product product1 = new Product(1, "11111", "test description 1", 555);
+        Product product2 = new Product(2, "11111", " description 2", 478);
+        Product product3 = new Product(2, "11111", " description 3", 478);
+        ArrayList<Product> products = new ArrayList<>();
         products.add(product1);
         products.add(product2);
         products.add(product3);
@@ -60,29 +60,45 @@ public class TransactionDemo {
             saveList(products, connection);
 
         } catch (SQLException e) {
-            System.err.println("Something went wrong");
+            System.err.println("Something went wrong ");
 
             e.printStackTrace();
         }
     }
 
     private static void saveList(List<Product> products, Connection connection) throws SQLException {
+        int i ;
         try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO PRODUCTJD  VALUES (?, ?, ?, ?)")) {
 
             connection.setAutoCommit(false);//управление окончанием транзакции вручную
 
-            for (Product product : products) {
-                preparedStatement.setLong(1, product.getId());
-                preparedStatement.setString(3, product.getDescription());
-                preparedStatement.setString(2, product.getName());
-                preparedStatement.setInt(4, product.getPrice());
+            for (i = 0; i < products.size()-1 ; ) {
+                for (Product product : products) {
+                    preparedStatement.setLong(1, product.getId());
+                    preparedStatement.setString(3, product.getDescription());
+                    preparedStatement.setString(2, product.getName());
+                    preparedStatement.setInt(4, product.getPrice());
 
-                int res = preparedStatement.executeUpdate();
 
-                System.out.println("Save was finished with result " + res);
+                    int res = preparedStatement.executeUpdate();
+
+                    if (res != 1) {
+                        System.err.println("Cant save product with id = " + products.get(i).getId());
+
+                    } else {
+                        i++;
+                    }
+
+
+                    System.out.println("Save was finished with result " + res);
+                    //System.out.println("Product with id = " + product.getId() + " was saved");
+                    System.out.println();
+
+                }
+                connection.commit();//запись данный в Б.Д.
             }
-            connection.commit();//запись данный в Б.Д.
-        } catch (SQLException e) {
+        }catch (SQLException e) {
+            //System.err.println("Product wit id " + products.get());
             connection.rollback();
             //если rollback свалится то мы делаем несколько ретраев или ничего не делаем
             throw e; //перебрасываем лог об ошибке во внешний метод saveList
