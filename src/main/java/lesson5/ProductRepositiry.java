@@ -6,7 +6,7 @@ import org.hibernate.Transaction;
 public class ProductRepositiry {
 
     public static Product save(Product product){
-        Session session = new HibernateUtil().createSessionFactory().openSession();
+        Session session = new HibernateUtils().createSessionFactory().openSession();
         session.getTransaction().begin();
         session.save(product);
         session.getTransaction().commit();
@@ -17,7 +17,7 @@ public class ProductRepositiry {
 
     public static void delete (long id){
         Transaction transaction = null;
-        try(Session session =  HibernateUtil.getSessionFactory().openSession()){
+        try(Session session =  HibernateUtils.getSessionFactory().openSession()){
             //start a transaction
             transaction = session.beginTransaction();
 
@@ -39,7 +39,7 @@ public class ProductRepositiry {
 
 
     public static Product  update(Product product){
-        Session session = new HibernateUtil().createSessionFactory().openSession();
+        Session session = new HibernateUtils().createSessionFactory().openSession();
         session.getTransaction().begin();
         session.update(product);
         session.getTransaction().commit();
