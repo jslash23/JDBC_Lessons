@@ -17,7 +17,7 @@ public class ProductRepositiry {
 
     public static void delete (long id){
         Transaction transaction = null;
-        try(Session session =  HibernateUtils.getSessionFactory().openSession()){
+        try(Session session = new  HibernateUtils().createSessionFactory().openSession()){
             //start a transaction
             transaction = session.beginTransaction();
 
