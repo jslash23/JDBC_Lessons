@@ -1,4 +1,4 @@
-package lesson5;
+package hibernate.lesson1;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -19,7 +19,7 @@ public class HibernateUtils {
     //то есть  конфигурирует Хибернейт используя hibernate.cfg.xml
 
    public  SessionFactory createSessionFactory(){
-        //return new Configuration().configure().buildSessionFactory();
+
        if (sessionFactory == null) {
            try {
                Configuration configuration = new Configuration();
@@ -46,14 +46,7 @@ public class HibernateUtils {
     }
 
 
-    /*public static SessionFactory getSessionFactory() {
-
-    }*/
-
-
     public void  shutDown(){
         sessionFactory.close();
     }
-
-
 }

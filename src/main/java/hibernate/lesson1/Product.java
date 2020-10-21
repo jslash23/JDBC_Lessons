@@ -1,9 +1,6 @@
-package lesson5;
+package hibernate.lesson1;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity//анотация
 @Table(name = "PRODUCTJD")//анотация дает компилятору подсказки и делает генерацию какого то нового кода
@@ -22,6 +19,10 @@ public class Product {
 
     @Id // аннотация для того чтоб Хибернейт понимал какая колонка является примари ключём в таблице
     //Маппинг полей с БД в поля джава класса
+
+
+    @SequenceGenerator(name = "PRJD_SEQ", sequenceName = "PRODUCTJD_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PRJD_SEQ")
     @Column(name = "ID")
     public long getId() {
         return id;
