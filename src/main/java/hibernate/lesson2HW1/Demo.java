@@ -1,4 +1,4 @@
-package lesson2HW;
+package hibernate.lesson2HW1;
 
 import hibernate.lesson1.Product;
 
