@@ -40,7 +40,7 @@ public class Demo {
         room1.setDateAvailableFrom(new Date());
 
 
-        room2.setId(31L);
+        room2.setId(33L);
         room2.setHotel(hotel2);
         room2.setNumberOfGuests(1);
         room2.setPrice(700);

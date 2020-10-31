@@ -94,7 +94,9 @@ public class RoomDAO {
         }
     }
 
-
+/*
+Спробуй дістати об'єкт через findById, змінити поля сеттерами й кинути на update
+ */
     public static void update(Room room) {
 
         try(Session session = createSessionFactory().openSession()){
@@ -102,9 +104,13 @@ public class RoomDAO {
             Transaction transaction = session.getTransaction();
             transaction.begin();
             //Room myEntity = per.findObjectById(myEntity .getId())
+            Long nr = room.getId();
+            Room findRoom = findById(nr);
+            findRoom.getHotel().setName("Lux");
+
 
             //action
-            session.update(room);
+            session.update(findRoom);
 
             //close session/tr
             transaction.commit();
