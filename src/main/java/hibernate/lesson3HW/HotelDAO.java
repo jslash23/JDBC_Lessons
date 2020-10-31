@@ -14,16 +14,13 @@ public class HotelDAO {
 
     public static Hotel findById(Long id) {
 
-        Transaction tr = null;
         Hotel hotel = new Hotel();
 
-
-        //session = createSessionFactory().openSession();
         try(Session session = createSessionFactory().openSession()){
 
             Query query = session.createQuery("from Hotel where id = :Id");
-            tr = session.getTransaction();
-            tr.begin();
+            Transaction transaction = session.getTransaction();
+            transaction.begin();
 
             //action
 
@@ -32,27 +29,20 @@ public class HotelDAO {
 
 
             //close session/tr
-            session.getTransaction().commit();
+            transaction.commit();
 
             for (Object l : list) {
                 hotel = (Hotel) l;
             }
 
-            System.out.println("Select done ");
             return hotel;
             //тут  сессия закроется автоматичесски
             //session.close();
 
 
-        } catch (HibernateException e) {
-            System.err.println("Select is failed");
-            System.err.println(e.getMessage());
-            if (tr != null){
-                tr.rollback();//
-            }
         }
-        catch (NullPointerException e){
-            System.err.println("Nothing founded!");
+        catch (HibernateException e){
+            System.err.println("Select from Hotel failed" + e.getMessage());
         }
 
         return hotel;
@@ -62,36 +52,48 @@ public class HotelDAO {
 
     public static void saveAll (Hotel hotel) {
 
-        Transaction tr = null;
-
-        //session = createSessionFactory().openSession();
         try(Session session = createSessionFactory().openSession()){
 
-            tr = session.getTransaction();
-            tr.begin();
+            Transaction transaction = session.getTransaction();
+            transaction.begin();
 
             //action
             session.save(hotel);
 
-
-
-            session.getTransaction().commit();
+            transaction.commit();
 
             System.out.println("Save done ");
 
             //тут  сессия закроется автоматичесски
             //session.close();
 
-
-        } catch (HibernateException e) {
-            System.err.println("Save is failed");
-            System.err.println(e.getMessage());
-            if (tr != null){
-                tr.rollback();//
-            }
         }
-        catch (NullPointerException e){
-            System.err.println("Nothing saved!");
+        catch (HibernateException e){
+            System.err.println("Save Hotel failed" + e.getMessage());
+        }
+    }
+
+    public static void   deleteAllHotels() {
+
+        try(Session session = createSessionFactory().openSession()){
+
+            Query query = session.createQuery("Delete  Hotel");
+            Transaction transaction = session.getTransaction();
+            transaction.begin();
+
+            //action
+
+            query.executeUpdate();
+            //close session/tr
+            transaction.commit();
+
+            //тут  сессия закроется автоматичесски
+            //session.close();
+            System.out.println("All hotels were deleted!");
+
+        }
+        catch (HibernateException e){
+            System.err.println("DeleteAll from Hotel failed" + e.getMessage());
         }
     }
 
@@ -105,6 +107,4 @@ public class HotelDAO {
         }
         return sessionFactory;
     }
-
-
 }

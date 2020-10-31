@@ -16,9 +16,10 @@ public class Hotel {
 
     //Поле id
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "HOTEL_S_SEQ")
     @SequenceGenerator(name = "HOTEL_S_SEQ", sequenceName = "HOTEL_SEQ", allocationSize = 1)
-    @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "HOTEL_S_SEQ")
+    //@OneToOne(optional = false, mappedBy = "hotel")
+    @Column(name = "id")
     public long getId() {
         return id;
     }

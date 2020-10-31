@@ -1,5 +1,7 @@
 package hibernate.lesson3HW;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -29,8 +31,17 @@ public class Room {
     }
 
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "HOTEL_FK", unique=true)
+
+
+
+
+    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.DELETE})
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "HOTEL_FK", unique=true, nullable = false)
+
+
+
+
     public Hotel getHotel() {
         return hotel;
     }
