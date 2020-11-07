@@ -1,0 +1,10 @@
+CREATE TABLE UserPr (
+id INT,
+CONSTRAINT userPr_pk PRIMARY KEY(id),
+orders_fk INT,
+CONSTRAINT userpr_fk FOREIGN KEY (orders_fk) REFERENCES OrderPr (id),
+name NVARCHAR2(20),
+password NVARCHAR2(30),
+country NVARCHAR2(20),
+usertype NVARCHAR2(30)
+);

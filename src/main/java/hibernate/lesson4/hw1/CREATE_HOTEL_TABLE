@@ -1,0 +1,10 @@
+CREATE TABLE HotelPr (
+id INT,
+CONSTRAINT HotelPr_pk PRIMARY KEY(id),
+roompr_fk INT,
+CONSTRAINT hotelpr_fk FOREIGN KEY (roompr_fk) REFERENCES RoomPr (id),
+name NVARCHAR2(20),
+country NVARCHAR2(30),
+city NVARCHAR2(20),
+street NVARCHAR2(30)
+);

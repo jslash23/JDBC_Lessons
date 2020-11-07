@@ -1,0 +1,11 @@
+CREATE TABLE OrderPr (
+id INT,
+CONSTRAINT OrderPr_pk PRIMARY KEY(id),
+userpr_fk INT,
+CONSTRAINT orderpr1_fk FOREIGN KEY (userpr_fk) REFERENCES UserPr (id),
+roompr_fk INT,
+CONSTRAINT orderpr2_fk FOREIGN KEY (roompr_fk) REFERENCES RoomPr (id),
+dateFrom TIMESTAMP(6),
+dateTo TIMESTAMP(6),
+moneyPaid NUMBER(10,2)
+);
