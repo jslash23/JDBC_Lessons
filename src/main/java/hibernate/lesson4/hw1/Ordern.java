@@ -4,17 +4,9 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "ORDER_PR")
+@Table(name = "ORDERPR")
 
 public class Ordern {
-
-
-    //Поле id
-    @Id/////
-
-    //////name = "ORDERPR_N_SEQ" мы сами придумали, sequenceName = "ORDERPR_SEQ" взяли из БД
-    @SequenceGenerator(name = "ORDERPR_N_SEQ", sequenceName = "ORDERPR_SEQ", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ORDERPR_N_SEQ")
 
     private long id;
     private Date dateFrom;
@@ -23,9 +15,14 @@ public class Ordern {
     private Usern usernOrdered;
     private Roomn roomn;
 
-
-
     @Column(name = "ID")
+
+    //Поле id
+    @Id/////
+
+    //////name = "ORDERPR_N_SEQ" мы сами придумали, sequenceName = "ORDERPR_SEQ" взяли из БД
+    @SequenceGenerator(name = "ORDERPR_N_SEQ", sequenceName = "ORDERPR_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ORDERPR_N_SEQ")
     public long getId() {
         return id;
     }
@@ -39,6 +36,7 @@ public class Ordern {
     @JoinColumn(name = "USERPR_FK", nullable = false)
     public Usern getUser() {return usernOrdered;}
 
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ROOMPR_FK", nullable = false)
     public Roomn getRoomn() {return roomn;}
 

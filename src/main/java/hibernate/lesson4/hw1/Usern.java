@@ -5,16 +5,9 @@ import java.util.List;
 
 
 @Entity
-@Table(name = "USER_PR" )
+@Table(name = "USERPR" )
 
 public class Usern {
-
-    //Поле id
-    @Id/////
-
-    //////name = "USERPR_N_SEQ" мы сами придумали, sequenceName = "USERPR_SEQ" взяли из БД
-    @SequenceGenerator(name = "USERPR_N_SEQ", sequenceName = "USERPR_SEQ", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USERPR_N_SEQ")
 
     private long id;
     private String name;
@@ -23,10 +16,14 @@ public class Usern {
     private String userType;
     private List<Ordern> orderns;
 
-
-
-    //@OneToOne(optional = false, mappedBy = "hotel")
     @Column(name = "ID")
+    //Поле id
+    @Id/////
+
+    //////name = "USERPR_N_SEQ" мы сами придумали, sequenceName = "USERPR_SEQ" взяли из БД
+    @SequenceGenerator(name = "USERPR_N_SEQ", sequenceName = "USERPR_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USERPR_N_SEQ")
+
     public long getId() {
         return id;
     }
@@ -36,7 +33,7 @@ public class Usern {
     }
 
     //we use association @OneToMany with using generics
-    @OneToMany (cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany (targetEntity = hibernate.lesson4.hw1.Ordern.class, cascade = CascadeType.ALL,  mappedBy = "userpr")
     public List<Ordern> getOrderns()
     {return orderns;}
     public void setOrderns(List orderns) {this.orderns = orderns;}

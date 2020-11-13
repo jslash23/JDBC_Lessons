@@ -20,7 +20,7 @@ public class OrderDAO {
 
         try (Session session = createSessionFactory().openSession()) {
             //
-            Query query = session.createQuery("from Order where id = :Id");
+            Query query = session.createQuery("from Ordern where id = :Id");
             Transaction transaction = session.getTransaction();
             transaction.begin();
 

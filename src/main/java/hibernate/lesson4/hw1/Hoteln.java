@@ -4,17 +4,9 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "HOTEL_PR" )
+@Table(name = "HOTELPR" )
 
 public class Hoteln {
-
-
-    //Поле id
-    @Id/////
-    //////name = "HOTEL_N_SEQ" мы сами придумали, sequenceName = "HOTEL_SEQ" взяли из БД
-    @SequenceGenerator(name = "HOTEL_N_SEQ", sequenceName = "HOTELPR_SEQ", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "HOTEL_N_SEQ")
-
 
     private long id;
     private String name;
@@ -23,15 +15,20 @@ public class Hoteln {
     private String street;
     private List<Roomn> roomns;//hear we have Set in @OneToMany  but in Task List rooms
 
-
-
     //we use association @OneToMany with using generics
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "hotel")
+    @OneToMany(targetEntity = hibernate.lesson4.hw1.Roomn.class, mappedBy = "hotelpr")//another table(ROOM_PR) can acces
+    // to this table throw class hoteln
 
     public List<Roomn> getRoomns()
     {return roomns;}
 
     public void setRoomns(List roomns){this.roomns = roomns;}
+
+    //Поле id
+    @Id/////
+    //////name = "HOTEL_N_SEQ" мы сами придумали, sequenceName = "HOTEL_SEQ" взяли из БД
+    @SequenceGenerator(name = "HOTEL_N_SEQ", sequenceName = "HOTELPR_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "HOTEL_N_SEQ")
 
     @Column(name = "ID")
     public long getId() {

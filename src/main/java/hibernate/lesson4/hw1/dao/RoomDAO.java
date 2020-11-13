@@ -43,7 +43,7 @@ public class RoomDAO {
 
         }
         catch (HibernateException e){
-            System.err.println("Select from Hoteln failed" + e.getMessage());
+            System.err.println("Select from Roomn failed" + e.getMessage());
         }
         return roomn;
     }
@@ -93,7 +93,7 @@ public class RoomDAO {
 
         }
         catch (HibernateException e){
-            System.err.println("Save Hoteln failed" + e.getMessage());
+            System.err.println("Save Roomn failed" + e.getMessage());
         }
     }
 

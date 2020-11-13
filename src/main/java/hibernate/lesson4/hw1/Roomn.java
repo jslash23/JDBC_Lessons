@@ -4,16 +4,9 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "ROOM_PR")
+@Table(name = "ROOMPR")
 
 public class Roomn {
-
-    //Поле id
-    @Id/////
-
-    //////name = "ROOMPR_N_SEQ" мы сами придумали, sequenceName = "ROOMPR_SEQ" взяли из БД
-    @SequenceGenerator(name = "ROOM_N_SEQ", sequenceName = "ROOMPR_SEQ", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ROOM_N_SEQ")
 
     private long id;
     private int numberOfGuests;
@@ -23,14 +16,17 @@ public class Roomn {
     private Date dateAvailableFrom;
     private Hoteln hoteln;
 
-
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
-
     @Column(name = "ID")
+
+    //Поле id
+    @Id/////
+
+    //////name = "ROOMPR_N_SEQ" мы сами придумали, sequenceName = "ROOMPR_SEQ" взяли из БД
+    @SequenceGenerator(name = "ROOM_N_SEQ", sequenceName = "ROOMPR_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ROOM_N_SEQ")
     public long getId() {
         return id;
     }
-
     public void setId(long id) {
         this.id = id;
     }
@@ -53,7 +49,6 @@ public class Roomn {
     public void setNumberOfGuests(int numberOfGuests) {
         this.numberOfGuests = numberOfGuests;
     }
-
 
     //Поле price
     @Column(name = "PRICE")
