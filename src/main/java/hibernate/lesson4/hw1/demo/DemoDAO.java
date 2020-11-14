@@ -1,13 +1,13 @@
 package hibernate.lesson4.hw1.demo;
 
 import hibernate.lesson4.hw1.Hoteln;
+import hibernate.lesson4.hw1.Ordern;
 import hibernate.lesson4.hw1.Roomn;
 import hibernate.lesson4.hw1.Usern;
 import hibernate.lesson4.hw1.dao.HotelDAO;
 import hibernate.lesson4.hw1.dao.OrderDAO;
 import hibernate.lesson4.hw1.dao.RoomDAO;
 import hibernate.lesson4.hw1.dao.UserDAO;
-import org.hibernate.criterion.Order;
 
 import java.util.*;
 
@@ -22,6 +22,8 @@ public class DemoDAO {
 
         Roomn roomn1 = new Roomn();
         Roomn roomn2 = new Roomn();
+        Ordern ordern = new Ordern();
+        Usern usern = new Usern();
 
         roomn1.setNumberOfGuests(2);
         roomn1.setPrice(500);

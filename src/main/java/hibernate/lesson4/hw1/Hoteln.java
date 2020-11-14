@@ -16,7 +16,9 @@ public class Hoteln {
     private List<Roomn> roomns;//hear we have Set in @OneToMany  but in Task List rooms
 
     //we use association @OneToMany with using generics
-    @OneToMany(targetEntity = hibernate.lesson4.hw1.Roomn.class, mappedBy = "hotelpr")//another table(ROOM_PR) can acces
+    @OneToMany(targetEntity = hibernate.lesson4.hw1.Roomn.class, mappedBy = "hoteln")//another table(ROOM_PR) can acces
+
+
     // to this table throw class hoteln
 
     public List<Roomn> getRoomns()

@@ -32,11 +32,19 @@ public class Usern {
         this.id = id;
     }
 
+
+
     //we use association @OneToMany with using generics
-    @OneToMany (targetEntity = hibernate.lesson4.hw1.Ordern.class, cascade = CascadeType.ALL,  mappedBy = "userpr")
-    public List<Ordern> getOrderns()
-    {return orderns;}
-    public void setOrderns(List orderns) {this.orderns = orderns;}
+    @OneToMany (mappedBy = "usern")
+    //@JoinColumn(name = "ORDERPR_FK", nullable = false)
+    public List<Ordern> getOrderns() {
+        return orderns;
+    }
+
+    public void setOrderns(List<Ordern> orderns) {
+        this.orderns = orderns;
+    }
+
 
 
     //Поле nameOfGuests name
