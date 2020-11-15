@@ -1,6 +1,6 @@
 package hibernate.lesson4.hw1.dao;
 
-import hibernate.lesson4.hw1.Hoteln;
+import hibernate.lesson4.hw1.model.Hotel;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -14,13 +14,13 @@ public class HotelDAO {
 
     private static SessionFactory sessionFactory;
 
-    public static Hoteln findById(Long id) {
+    public static Hotel findById(Long id) {
 
-        Hoteln hoteln = new Hoteln();
+        Hotel hotel = new Hotel();
 
         try(Session session = createSessionFactory().openSession()){
             //
-            Query query = session.createQuery("from Hoteln where id = :Id");
+            Query query = session.createQuery("from Hotel where id = :Id");
             Transaction transaction = session.getTransaction();
             transaction.begin();
 
@@ -34,34 +34,34 @@ public class HotelDAO {
             transaction.commit();
 
             for (Object l : list) {
-                hoteln = (Hoteln) l;
+                hotel = (Hotel) l;
             }
 
-            return hoteln;
+            return hotel;
             //тут  сессия закроется автоматичесски
             //session.close();
 
         }
         catch (HibernateException e){
-            System.err.println("Select from Hoteln failed" + e.getMessage());
+            System.err.println("Select from Hotel failed" + e.getMessage());
         }
-        return hoteln;
+        return hotel;
     }
 
 
-    public static void update(Hoteln hoteln) {
+    public static void update(Hotel hotel) {
 
         try(Session session = createSessionFactory().openSession()){
 
             Transaction transaction = session.getTransaction();
             transaction.begin();
-            //Roomn myEntity = per.findObjectById(myEntity .getId())
-            Long nr = hoteln.getId();
-            Hoteln findHoteln = findById(nr);
-            findHoteln.setName("Lux");
+            //Room myEntity = per.findObjectById(myEntity .getId())
+            Long nr = hotel.getId();
+            Hotel findHotel = findById(nr);
+            findHotel.setName("Lux");
 
             //action
-            session.update(findHoteln);
+            session.update(findHotel);
 
             //close session/tr
             transaction.commit();
@@ -74,7 +74,7 @@ public class HotelDAO {
     }
 
 
-    public static void save (Hoteln hoteln) {
+    public static void save (Hotel hotel) {
 
         try(Session session = createSessionFactory().openSession()){
 
@@ -82,7 +82,7 @@ public class HotelDAO {
             transaction.begin();
 
             //action
-            session.save(hoteln);
+            session.save(hotel);
 
             transaction.commit();
 
@@ -93,14 +93,14 @@ public class HotelDAO {
 
         }
         catch (HibernateException e){
-            System.err.println("Save Hoteln failed " + e.getMessage());
+            System.err.println("Save Hotel failed " + e.getMessage());
         }
         }
 
     public static void delete(Long id) {
 
         try (Session session = createSessionFactory().openSession()) {
-            Query query = session.createQuery("Delete Hoteln where id = :Id");
+            Query query = session.createQuery("Delete Hotel where id = :Id");
             Transaction transaction = session.getTransaction();
 
 
@@ -119,6 +119,78 @@ public class HotelDAO {
 
         }
     }
+
+//Methods from project Core
+
+    public static Hotel findHotelByName(String name) {
+
+        Hotel hotel = new Hotel();
+
+        try(Session session = createSessionFactory().openSession()){
+            //
+            Query query = session.createQuery("from Hotel where name = :Name");
+            Transaction transaction = session.getTransaction();
+            transaction.begin();
+
+            //action
+
+            query.setParameter("Name",name);
+            List list= query.list();
+
+
+            //close session/tr
+            transaction.commit();
+
+            for (Object l : list) {
+                hotel = (Hotel) l;
+            }
+
+            return hotel;
+            //тут  сессия закроется автоматичесски
+            //session.close();
+
+        }
+        catch (HibernateException e){
+            System.err.println("Select from Hotel failed" + e.getMessage());
+        }
+        return hotel;
+    }
+
+
+    public static Hotel findHotelByCity(String city) {
+
+        Hotel hotel = new Hotel();
+
+        try(Session session = createSessionFactory().openSession()){
+            //
+            Query query = session.createQuery("from Hotel where city = :City");
+            Transaction transaction = session.getTransaction();
+            transaction.begin();
+
+            //action
+
+            query.setParameter("City", city);
+            List list= query.list();
+
+
+            //close session/tr
+            transaction.commit();
+
+            for (Object l : list) {
+                hotel = (Hotel) l;
+            }
+
+            return hotel;
+            //тут  сессия закроется автоматичесски
+            //session.close();
+
+        }
+        catch (HibernateException e){
+            System.err.println("Select from Hotel failed" + e.getMessage());
+        }
+        return hotel;
+    }
+
 
 
     private static SessionFactory createSessionFactory() {

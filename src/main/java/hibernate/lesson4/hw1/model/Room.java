@@ -1,44 +1,57 @@
 package hibernate.lesson4.hw1.model;
 
-public class Room  {
+import javax.persistence.*;
+import java.util.Date;
+
+@Entity
+@Table(name = "ROOMPR")
+
+public class Room {
 
     private long id;
-    private int numbersOfGuests;
+    private int numberOfGuests;
     private double price;
-    private boolean breakfastIncluded;
-    private boolean petsAllowed;
-    private String dateAvableFrom;
+    private int breakfastIncluded;
+    private int petsAllowed;
+    private Date dateAvailableFrom;
     private Hotel hotel;
 
-    public Room(long id, int numbersOfGuests, double price, boolean breakfastIncluded, boolean petsAllowed,
-                String dateAvableFrom, Hotel hotel) {
-        this.id = id;
-        this.numbersOfGuests = numbersOfGuests;
-        this.price = price;
-        this.breakfastIncluded = breakfastIncluded;
-        this.petsAllowed = petsAllowed;
-        this.dateAvableFrom = dateAvableFrom;
-        this.hotel = hotel;
-    }
+    @Column(name = "ID")
 
+    //Поле id
+    @Id/////
 
-
+    //////name = "ROOMPR_N_SEQ" мы сами придумали, sequenceName = "ROOMPR_SEQ" взяли из БД
+    @SequenceGenerator(name = "ROOM_N_SEQ", sequenceName = "ROOMPR_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ROOM_N_SEQ")
     public long getId() {
         return id;
     }
-
     public void setId(long id) {
         this.id = id;
     }
 
-    public int getNumbersOfGuests() {
-        return numbersOfGuests;
+    //we use association @ManyToOne with using generics
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "HOTELPR_FK", nullable = false)
+
+    public Hotel getHotel() {return hotel;}
+    public void setHotel(Hotel hotel) {
+        this.hotel = hotel;
     }
 
-    public void setNumbersOfGuests(int numbersOfGuests) {
-        this.numbersOfGuests = numbersOfGuests;
+    //Поле nameOfGuests
+    @Column(name = "NUMBEROFGUESTS")
+    public int getNumberOfGuests() {
+        return numberOfGuests;
     }
 
+    public void setNumberOfGuests(int numberOfGuests) {
+        this.numberOfGuests = numberOfGuests;
+    }
+
+    //Поле price
+    @Column(name = "PRICE")
     public double getPrice() {
         return price;
     }
@@ -47,55 +60,52 @@ public class Room  {
         this.price = price;
     }
 
-    public boolean isBreakfastIncluded() {
+
+    //ПолеBreakfastIncluded
+    @Column(name = "BREAKFASTINCLUDED")
+    public int getBreakfastIncluded() {
         return breakfastIncluded;
     }
 
-    public void setBreakfastIncluded(boolean breakfastIncluded) {
+    public void setBreakfastIncluded(int breakfastIncluded) {
         this.breakfastIncluded = breakfastIncluded;
     }
 
-    public boolean isPetsAllowed() {
+
+    //Поле PetsAllawed
+    @Column(name = "PETSALLOWED")
+    public int getPetsAllowed() {
         return petsAllowed;
     }
 
-    public void setPetsAllowed(boolean petsAllowed) {
+    public void setPetsAllowed(int petsAllowed) {
         this.petsAllowed = petsAllowed;
     }
 
-    public String getDateAvableFrom() {
-        return dateAvableFrom;
+
+    //Поле DateAvailableFrom
+    @Column(name = "DATEAVAILABLEFROM")
+    @Temporal(value = TemporalType.DATE)
+    public Date getDateAvailableFrom() {
+        return dateAvailableFrom;
     }
 
-    public void setDateAvableFrom(String dateAvableFrom) {
-        this.dateAvableFrom = dateAvableFrom;
+    public void setDateAvailableFrom(Date dateAvailableFrom) {
+        this.dateAvailableFrom = dateAvailableFrom;
     }
 
-    public Hotel getHotel() {
-        return hotel;
-    }
-
-    public void setHotel(Hotel hotel) {
-        this.hotel = hotel;
-    }
+    //Поле Hotel ссылающееся на класс Hotel
 
     @Override
     public String toString() {
         return "Room{" +
                 "id=" + id +
-                ", numbersOfGuests=" + numbersOfGuests +
+                ", numberOfGuests=" + numberOfGuests +
                 ", price=" + price +
                 ", breakfastIncluded=" + breakfastIncluded +
                 ", petsAllowed=" + petsAllowed +
-                ", dateAvableFrom='" + dateAvableFrom + '\'' +
+                ", dateAvailableFrom=" + dateAvailableFrom +
                 ", hotel=" + hotel +
                 '}';
     }
 }
-
-
-
-
-
-
-

@@ -1,5 +1,7 @@
 package hibernate.lesson4.hw1.model;
 
+import java.util.Date;
+
 public class Filter {
 
 
@@ -7,14 +9,14 @@ public class Filter {
     private double price;
     private boolean breakfastIncluded;
     private boolean petsAllowed;
-    private String dateAvableFrom;
+    private Date dateAvableFrom;
 
-    //вместо поля   private Hotel hotel пишем
+    //вместо поля   private Hotell hotel пишем
     private String country;
     private String city;
 
     public Filter(int numbersOfGuests, double price, boolean breakfastIncluded,
-                  boolean petsAllowed, String dateAvableFrom, String country, String city) {
+                  boolean petsAllowed, Date dateAvableFrom, String country, String city) {
         this.numbersOfGuests = numbersOfGuests;
         this.price = price;
         this.breakfastIncluded = breakfastIncluded;
@@ -53,7 +55,7 @@ public class Filter {
         return petsAllowed;
     }
 
-    public String getDateAvableFrom() {
+    public Date getDateAvableFrom() {
         return dateAvableFrom;
     }
 
@@ -81,7 +83,7 @@ public class Filter {
         this.petsAllowed = petsAllowed;
     }
 
-    public void setDateAvableFrom(String dateAvableFrom) {
+    public void setDateAvableFrom(Date dateAvableFrom) {
         this.dateAvableFrom = dateAvableFrom;
     }
 

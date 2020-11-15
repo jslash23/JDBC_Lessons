@@ -1,21 +1,28 @@
 package hibernate.lesson4.hw1.model;
 
+import javax.persistence.*;
+import java.util.List;
+
+
+@Entity
+@Table(name = "USERPR" )
+
 public class User {
+
     private long id;
-    private String userName;
+    private String name;
     private String password;
     private String country;
-    private Enum UserType;
+    private String userType;
+    private List<Order> orders;
 
+    @Column(name = "ID")
+    //Поле id
+    @Id/////
 
-    public User(long id, String userName, String password, String country, Enum userType) {
-        this.id = id;
-        this.userName = userName;
-        this.password = password;
-        this.country = country;
-        UserType = userType;
-
-    }
+    //////name = "USERPR_N_SEQ" мы сами придумали, sequenceName = "USERPR_SEQ" взяли из БД
+    @SequenceGenerator(name = "USERPR_N_SEQ", sequenceName = "USERPR_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USERPR_N_SEQ")
 
     public long getId() {
         return id;
@@ -25,47 +32,56 @@ public class User {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+
+
+    //we use association @OneToMany with using generics
+    @OneToMany (mappedBy = "usern")
+    //@JoinColumn(name = "ORDERPR_FK", nullable = false)
+    public List<Order> getOrders() {
+        return orders;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 
-    public String getPassword() {
-        return password;
+
+
+    //Поле nameOfGuests name
+    @Column(name = "NAME")
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    //Поле userName
+    @Column(name = "PASSWORD")
+    public String getPassword() {return password;}
+    public  void setPassword(String password){this.password = password;}
 
-    public String getCountry() {
-        return country;
-    }
 
-    public void setCountry(String country) {
-        this.country = country;
-    }
+    //Поле country
+    @Column(name = "COUNTRY")
+    public String getCountry() {return country;}
+    public void setCountry(String country) {this.country = country;}
 
-    public Enum getUserType() {
-        return UserType;
-    }
 
-    public void setUserType(Enum userType) {
-        UserType = userType;
-    }
-
+    //Поле userType
+    @Column(name = "USERTYPE")
+    public String getUserType() {return userType;}
+    public void setUserType(String userType) {this.userType = userType;}
 
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", userName='" + userName + '\'' +
+                ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 ", country='" + country + '\'' +
-                ", UserType=" + UserType +
+                ", userType='" + userType + '\'' +
+                ", orders=" + orders +
                 '}';
     }
 }

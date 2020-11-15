@@ -1,6 +1,7 @@
 package hibernate.lesson4.hw1.dao;
 
-import hibernate.lesson4.hw1.Roomn;
+import hibernate.lesson4.hw1.model.Filter;
+import hibernate.lesson4.hw1.model.Room;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -8,19 +9,20 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import  org.hibernate.query.Query;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RoomDAO {
 
     private static SessionFactory sessionFactory;
 
-    public static Roomn findById(Long id) {
+    public static Room findById(Long id) {
 
-        Roomn roomn = new Roomn();
+        Room room = new Room();
 
         try(Session session = createSessionFactory().openSession()){
             //
-            Query query = session.createQuery("from Roomn where id = :Id");
+            Query query = session.createQuery("from Room where id = :Id");
             Transaction transaction = session.getTransaction();
             transaction.begin();
 
@@ -34,34 +36,34 @@ public class RoomDAO {
             transaction.commit();
 
             for (Object l : list) {
-                roomn = (Roomn) l;
+                room = (Room) l;
             }
 
-            return roomn;
+            return room;
             //тут  сессия закроется автоматичесски
             //session.close();
 
         }
         catch (HibernateException e){
-            System.err.println("Select from Roomn failed" + e.getMessage());
+            System.err.println("Select from Room failed" + e.getMessage());
         }
-        return roomn;
+        return room;
     }
 
 
-    public static void update(Roomn roomn) {
+    public static void update(Room room) {
 
         try(Session session = createSessionFactory().openSession()){
 
             Transaction transaction = session.getTransaction();
             transaction.begin();
-            //Roomn myEntity = per.findObjectById(myEntity .getId())
-            Long nr = roomn.getId();
-            Roomn findRoomn = findById(nr);
-            findRoomn.setNumberOfGuests(2);
+            //Room myEntity = per.findObjectById(myEntity .getId())
+            Long nr = room.getId();
+            Room findRoom = findById(nr);
+            findRoom.setNumberOfGuests(2);
 
             //action
-            session.update(findRoomn);
+            session.update(findRoom);
 
             //close session/tr
             transaction.commit();
@@ -74,7 +76,7 @@ public class RoomDAO {
     }
 
 
-    public static void save (Roomn roomn) {
+    public static void save (Room room) {
 
         try(Session session = createSessionFactory().openSession()){
 
@@ -82,7 +84,7 @@ public class RoomDAO {
             transaction.begin();
 
             //action
-            session.save(roomn);
+            session.save(room);
 
             transaction.commit();
 
@@ -93,14 +95,14 @@ public class RoomDAO {
 
         }
         catch (HibernateException e){
-            System.err.println("Save Roomn failed" + e.getMessage());
+            System.err.println("Save Room failed" + e.getMessage());
         }
     }
 
     public static void delete(Long id) {
 
         try (Session session = createSessionFactory().openSession()) {
-            Query query = session.createQuery("Delete Roomn where id = :Id");
+            Query query = session.createQuery("Delete Room where id = :Id");
             Transaction transaction = session.getTransaction();
 
 
@@ -120,6 +122,44 @@ public class RoomDAO {
         }
     }
 
+    //methods from project Core
+
+    public static List<Room> findRooms(Filter filter){
+       List <Room> room = new ArrayList<>();
+
+        try(Session session = createSessionFactory().openSession()){
+            //
+            Query query = session.createQuery("from Room where numberOfGuests = :ng and price = :pr " +
+                    "and breakfastIncluded = :bi and petsAllowed = :pa and dateAvailableFrom = : daf " +
+                    "   ");//////////////
+            Transaction transaction = session.getTransaction();
+            transaction.begin();
+
+            //action
+
+            query.setParameter("ng",filter.getNumbersOfGuests());
+            query.setParameter("pr",filter.getPrice());
+            query.setParameter("bi",filter.isBreakfastIncluded());
+            query.setParameter("pa",filter.isPetsAllowed());
+            query.setParameter("daf",filter.getDateAvableFrom());
+
+            room = query.list();
+
+            //close session/tr
+            transaction.commit();
+
+
+
+            return room;
+            //тут  сессия закроется автоматичесски
+            //session.close();
+
+        }
+        catch (HibernateException e){
+            System.err.println("Select from Room failed" + e.getMessage());
+        }
+        return room;
+    }
 
     private static SessionFactory createSessionFactory() {
         //singleton pattern нужен чтоб сесии не создавали множество раз
@@ -130,5 +170,4 @@ public class RoomDAO {
         }
         return sessionFactory;
     }
-
 }

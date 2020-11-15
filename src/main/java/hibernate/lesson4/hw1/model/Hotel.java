@@ -1,140 +1,89 @@
 package hibernate.lesson4.hw1.model;
 
+import javax.persistence.*;
+import java.util.List;
+
+@Entity
+@Table(name = "HOTELPR" )
+
 public class Hotel {
+
     private long id;
     private String name;
     private String country;
     private String city;
-    private  String street;
+    private String street;
+    private List<Room> rooms;//hear we have Set in @OneToMany  but in Task List rooms
 
-    public Hotel(long id, String name, String country, String city, String street) {
-        this.id = id;
-        this.name = name;
-        this.country = country;
-        this.city = city;
-        this.street = street;
-    }
-
-     /*@Override//переопределяем метод equals
-    //сравниваем два объека по  по ссылкам
-    public boolean equals(Object o) {
-        if (this == o) return true;// this это тот объект у которого мы вызываем метод,
-        // в данном случае это file1
-        //если ссылки между собой равны (указывают на один и тот же объект) то мы возвращаем true
-
-        if (o == null || getClass() != o.getClass()) return false;// если объект с которым мы
-        // сравниваем налл  или классы не совпадают то возвращаем false
+    //we use association @OneToMany with using generics
+    @OneToMany(targetEntity = Room.class, mappedBy = "hoteln")//another table(ROOM_PR) can acces
 
 
-        File file = (File) o;//Делаем операцию кастом (Object тип  приводим к более узкому типу File)
+    // to this table throw class hoteln
 
-        //Тут мы уже сравниваем поля
-        if (!path.equals(file.path)) return false;//учитываем только поле path
-        return true;
-    }
+    public List<Room> getRooms()
+    {return rooms;}
 
+    public void setRooms(List rooms){this.rooms = rooms;}
 
-    @Override
-    public int hashCode() {
-        return path.hashCode();
-    }*/
+    //Поле id
+    @Id/////
+    //////name = "HOTEL_N_SEQ" мы сами придумали, sequenceName = "HOTEL_SEQ" взяли из БД
+    @SequenceGenerator(name = "HOTEL_N_SEQ", sequenceName = "HOTELPR_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "HOTEL_N_SEQ")
 
-
-
-    //Этот метод проверяет объекты по содержимому
-    /*@Override
-    public boolean equals(Object o) {
-        if (this == o)//тут сравниваем ссылки объектов
-            return true;//если ссылки указывают на один и тот же объект мы возвращаем тру
-        if (o == null || getClass() != o.getClass())//если объект с которым мы сравниваем налл
-            // или класы наших
-            //объектов не совпадают (разные) то мы возвращаем false
-            return false;
-
-        File file = (File) o;//делаем операцию кастом объект типа обжект мы приводим к типу файл
-
-        //Сравниваем поля
-        if (size != file.size)// если поле size != полю size  другого объекта
-            return false;// то возвращаем false
-        if (!path.equals(file.path)) return false; // если поля path не равны между собой то возвр false
-        if (!extension.equals(file.extension)) return false;//если поля extension не равны между собой
-            // то возвращаем false
-        return true; // если все проверки прошли то возвращаем true
-    }
-
-    @Override
-    public int hashCode() {
-        int result = size;
-        result = 31 * result + path.hashCode();
-        result = 31 * result + extension.hashCode();
-        return result;
-    }*/
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Hotel hotel = (Hotel) o;
-
-        if (id != hotel.id) return false;
-        if (!name.equals(hotel.name)) return false;
-        if (!country.equals(hotel.country)) return false;
-        if (!city .equals(hotel.city)) return false;
-        if(!street.equals(hotel.street))return false;
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result +  name.hashCode();
-        result = 31 * result +  country.hashCode();
-        result = 31 * result +  city.hashCode();
-        result = 31 * result +  street.hashCode();
-        return result;
-    }
-
+    @Column(name = "ID")
     public long getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-
     public void setId(long id) {
         this.id = id;
+    }
+    //@GeneratedValue(strategy = GenerationType.AUTO)
+
+    //Поле nameOfGuests name
+    @Column(name = "NAME")
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
+
+    //Поле country
+    @Column(name = "COUNTRY")
+    public String getCountry() {
+        return country;
+    }
+
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    //Поле nameOfGuests city
+    @Column(name = "CITY")
+    public String getCity() {
+        return city;
     }
 
     public void setCity(String city) {
         this.city = city;
     }
 
+
+    //Поле street
+    @Column(name = "STREET")
+    public String getStreet() {
+        return street;
+    }
+
     public void setStreet(String street) {
         this.street = street;
     }
+
 
     @Override
     public String toString() {
@@ -144,6 +93,7 @@ public class Hotel {
                 ", country='" + country + '\'' +
                 ", city='" + city + '\'' +
                 ", street='" + street + '\'' +
+                ", rooms=" + rooms +
                 '}';
     }
 }

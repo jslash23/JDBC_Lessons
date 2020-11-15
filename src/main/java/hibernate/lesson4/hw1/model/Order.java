@@ -1,23 +1,28 @@
 package hibernate.lesson4.hw1.model;
 
+import javax.persistence.*;
+import java.util.Date;
+
+@Entity
+@Table(name = "ORDERPR")
+
 public class Order {
 
     private long id;
-    private User user;
-    private Room room;
-    private String dateFrom;
-    private String dateTo;
+    private Date dateFrom;
+    private Date dateTo;
     private double moneyPaid;
+    private User userOrdered;
+    private Room room;
 
-    public Order(long id, User user, Room room, String dateFrom, String dateTo, double moneyPaid) {
-        this.id = id;
-        this.user = user;
-        this.room = room;
-        this.dateFrom = dateFrom;
-        this.dateTo = dateTo;
-        this.moneyPaid = moneyPaid;
-    }
+    @Column(name = "ID")
 
+    //Поле id
+    @Id/////
+
+    //////name = "ORDERPR_N_SEQ" мы сами придумали, sequenceName = "ORDERPR_SEQ" взяли из БД
+    @SequenceGenerator(name = "ORDERPR_N_SEQ", sequenceName = "ORDERPR_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ORDERPR_N_SEQ")
     public long getId() {
         return id;
     }
@@ -26,55 +31,37 @@ public class Order {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
-    }
+    //we use association @ManyToOne with using generics
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USERPR_FK", nullable = false)
+    public User getUser() {return userOrdered;}
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ROOMPR_FK", nullable = false)
+    public Room getRoom() {return room;}
 
-    public Room getRoom() {
-        return room;
-    }
+    @Column(name = "DATEFROM")
+    public Date getDateFrom() {return dateFrom;}
+    public void setDateFrom(Date dateFrom) {this.dateFrom = dateFrom;}
 
-    public void setRoom(Room room) {
-        this.room = room;
-    }
+    @Column(name = "DATETO")
+    public Date getDateTo() {return dateTo;}
+    public void setDateTo(Date dateTo) {this.dateTo = dateTo;}
 
-    public String getDateFrom() {
-        return dateFrom;
-    }
 
-    public void setDateFrom(String dateFrom) {
-        this.dateFrom = dateFrom;
-    }
-
-    public String getDateTo() {
-        return dateTo;
-    }
-
-    public void setDateTo(String dateTo) {
-        this.dateTo = dateTo;
-    }
-
-    public double getMoneyPaid() {
-        return moneyPaid;
-    }
-
-    public void setMoneyPaid(double moneyPaid) {
-        this.moneyPaid = moneyPaid;
-    }
+    @Column(name = "MONEYPAID")
+    public double getMoneyPaid() {return moneyPaid;}
+    public void setMoneyPaid(double moneyPaid) {this.moneyPaid = moneyPaid;}
 
     @Override
     public String toString() {
         return "Order{" +
                 "id=" + id +
-                ", user=" + user +
-                ", room=" + room +
-                ", dateFrom='" + dateFrom + '\'' +
-                ", dateTo='" + dateTo + '\'' +
+                ", dateFrom=" + dateFrom +
+                ", dateTo=" + dateTo +
                 ", moneyPaid=" + moneyPaid +
+                ", userOrdered=" + userOrdered +
+                ", room=" + room +
                 '}';
     }
 }

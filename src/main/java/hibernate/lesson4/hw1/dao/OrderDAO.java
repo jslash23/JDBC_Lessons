@@ -1,6 +1,6 @@
 package hibernate.lesson4.hw1.dao;
 
-import hibernate.lesson4.hw1.Ordern;
+import hibernate.lesson4.hw1.model.Order;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -14,13 +14,13 @@ public class OrderDAO {
 
     private static SessionFactory sessionFactory;
 
-    public static Ordern findById(Long id) {
+    public static Order findById(Long id) {
 
-        Ordern ordern = new Ordern();
+        Order order = new Order();
 
         try (Session session = createSessionFactory().openSession()) {
             //
-            Query query = session.createQuery("from Ordern where id = :Id");
+            Query query = session.createQuery("from Order where id = :Id");
             Transaction transaction = session.getTransaction();
             transaction.begin();
 
@@ -34,33 +34,33 @@ public class OrderDAO {
             transaction.commit();
 
             for (Object l : list) {
-                ordern = (Ordern) l;
+                order = (Order) l;
             }
 
-            return ordern;
+            return order;
             //тут  сессия закроется автоматичесски
             //session.close();
 
         } catch (HibernateException e) {
-            System.err.println("Select from Ordern failed" + e.getMessage());
+            System.err.println("Select from Order failed" + e.getMessage());
         }
-        return ordern;
+        return order;
     }
 
 
-    public static void update(Ordern ordern) {
+    public static void update(Order order) {
 
         try (Session session = createSessionFactory().openSession()) {
 
             Transaction transaction = session.getTransaction();
             transaction.begin();
 
-            Long nr = ordern.getId();
-            Ordern findOrdern = findById(nr);
-            findOrdern.setMoneyPaid(100);
+            Long nr = order.getId();
+            Order findOrder = findById(nr);
+            findOrder.setMoneyPaid(100);
 
             //action
-            session.update(findOrdern);
+            session.update(findOrder);
 
             //close session/tr
             transaction.commit();
@@ -72,7 +72,7 @@ public class OrderDAO {
     }
 
 
-    public static void save(Ordern ordern) {
+    public static void save(Order order) {
 
         try (Session session = createSessionFactory().openSession()) {
 
@@ -80,7 +80,7 @@ public class OrderDAO {
             transaction.begin();
 
             //action
-            session.save(ordern);
+            session.save(order);
 
             transaction.commit();
 
@@ -90,14 +90,14 @@ public class OrderDAO {
             //session.close();
 
         } catch (HibernateException e) {
-            System.err.println("Save Ordern failed " + e.getMessage());
+            System.err.println("Save Order failed " + e.getMessage());
         }
     }
 
     public static void delete(Long id) {
 
         try (Session session = createSessionFactory().openSession()) {
-            Query query = session.createQuery("Delete Ordern where id = :Id");
+            Query query = session.createQuery("Delete Order where id = :Id");
             Transaction transaction = session.getTransaction();
 
 
@@ -116,7 +116,30 @@ public class OrderDAO {
 
         }
     }
+//methods from project Core
 
+    public static void bookRoom (Order order) {
+
+        try(Session session = createSessionFactory().openSession()){
+
+            Transaction transaction = session.getTransaction();
+            transaction.begin();
+
+            //action
+            session.save(order);
+
+            transaction.commit();
+
+            System.out.println("Save done ");
+
+            //тут  сессия закроется автоматичесски
+            //session.close();
+
+        }
+        catch (HibernateException e){
+            System.err.println("Book order failed" + e.getMessage());
+        }
+    }
 
     private static SessionFactory createSessionFactory() {
         //singleton pattern нужен чтоб сесии не создавали множество раз

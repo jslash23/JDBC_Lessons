@@ -1,9 +1,6 @@
 package hibernate.lesson4.hw1.demo;
 
-import hibernate.lesson4.hw1.Hoteln;
-import hibernate.lesson4.hw1.Ordern;
-import hibernate.lesson4.hw1.Roomn;
-import hibernate.lesson4.hw1.Usern;
+import hibernate.lesson4.hw1.model.*;
 import hibernate.lesson4.hw1.dao.HotelDAO;
 import hibernate.lesson4.hw1.dao.OrderDAO;
 import hibernate.lesson4.hw1.dao.RoomDAO;
@@ -12,7 +9,7 @@ import hibernate.lesson4.hw1.dao.UserDAO;
 import java.util.*;
 
 public class DemoDAO {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         RoomDAO roomDAO = new RoomDAO();
         HotelDAO hotelDAO = new HotelDAO();
@@ -20,54 +17,62 @@ public class DemoDAO {
         OrderDAO orderDAO = new OrderDAO();
 
 
-        Roomn roomn1 = new Roomn();
-        Roomn roomn2 = new Roomn();
-        Ordern ordern = new Ordern();
-        Usern usern = new Usern();
+        Room room1 = new Room();
+        Room room2 = new Room();
+        Order order = new Order();
+        User user = new User();
 
-        roomn1.setNumberOfGuests(2);
-        roomn1.setPrice(500);
-        roomn1.setBreakfastIncluded(1);
-        roomn1.setPetsAllowed(1);
-        roomn1.setDateAvailableFrom(new Date());
-        roomn1.setHoteln(HotelDAO.findById(1L));
+        room1.setNumberOfGuests(2);
+        room1.setPrice(500);
+        room1.setBreakfastIncluded(1);
+        room1.setPetsAllowed(1);
+        room1.setDateAvailableFrom(new Date());
+        room1.setHotel(HotelDAO.findById(1L));
 
-        roomn2.setNumberOfGuests(1);
-        roomn2.setPrice(700);
-        roomn2.setBreakfastIncluded(0);
-        roomn2.setPetsAllowed(0);
-        roomn2.setDateAvailableFrom(new Date());
-        roomn2.setHoteln(HotelDAO.findById(4L));
+        room2.setNumberOfGuests(1);
+        room2.setPrice(700);
+        room2.setBreakfastIncluded(0);
+        room2.setPetsAllowed(0);
+        room2.setDateAvailableFrom(new Date());
+        room2.setHotel(HotelDAO.findById(4L));
 
         //Create collections of Roomns
-        List<Roomn> roomns = new ArrayList<>();
+        List<Room> rooms = new ArrayList<>();
 
-        //adding new room to collectiom roomns
-        roomns.add(RoomDAO.findById(1L));
-        roomns.add(RoomDAO.findById(5L));
+        //adding new room to collectiom rooms
+        rooms.add(RoomDAO.findById(1L));
+        rooms.add(RoomDAO.findById(5L));
 
+        order.getRoom().setId(10);
+        order.getUser().setId(20);
+        order.setDateFrom(new Date());
+        order.setDateTo(new Date());
 
-        Hoteln hoteln1 = new Hoteln();
+        Hotel hotel1 = new Hotel();
 
 ///
-        hoteln1.setName("KievPlaza");
-        hoteln1.setCountry("Ukraine");
-        hoteln1.setCity("Kiev");
-        hoteln1.setStreet("Hreshatik");
-        hoteln1.setRoomns(roomns);
+        hotel1.setName("KievPlaza");
+        hotel1.setCountry("Ukraine");
+        hotel1.setCity("Kiev");
+        hotel1.setStreet("Hreshatik");
+        hotel1.setRooms(rooms);
 
-        Hoteln hoteln2 = new Hoteln();
+        Hotel hotel2 = new Hotel();
 
-        hoteln2.setName("Stolica");
-        hoteln2.setCountry("Ukraine");
-        hoteln2.setCity("Kiev");
-        hoteln2.setStreet("Pechersk");
-        hoteln2.setRoomns(roomns);
+        hotel2.setName("Stolica");
+        hotel2.setCountry("Ukraine");
+        hotel2.setCity("Kiev");
+        hotel2.setStreet("Pechersk");
+        hotel2.setRooms(rooms);
+        Filter filterNew = new Filter(2,100,true,true,new Date(),
+        "Ukraine", "Kiev");
 
-
-        hotelDAO.save(hoteln1);
-        //roomDAO.save(roomn1);
-
+       // hotelDAO.save(hotel1);
+        //roomDAO.save(room1);
+        hibernate.lesson4.hw1.controller.OrderController.bookRoom(order, UserType.USER) ;
+        hibernate.lesson4.hw1.controller.RoomController.findRooms(filterNew);
+        hibernate.lesson4.hw1.controller.HotelController.findHotelByName("Plaza");
+        hibernate.lesson4.hw1.controller.HotelController.findHotelByCity("Kiev");
 
     }
 }

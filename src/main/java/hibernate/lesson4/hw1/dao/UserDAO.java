@@ -1,7 +1,6 @@
 package hibernate.lesson4.hw1.dao;
 
-import hibernate.lesson4.hw1.Hoteln;
-import hibernate.lesson4.hw1.Usern;
+import hibernate.lesson4.hw1.model.User;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -15,13 +14,13 @@ public class UserDAO {
 
     private static SessionFactory sessionFactory;
 
-    public static Usern findById(Long id) {
+    public static User findById(Long id) {
 
-        Usern usern = new Usern();
+        User user = new User();
 
         try (Session session = createSessionFactory().openSession()) {
             //
-            Query query = session.createQuery("from Usern where id = :Id");
+            Query query = session.createQuery("from User where id = :Id");
             Transaction transaction = session.getTransaction();
             transaction.begin();
 
@@ -35,33 +34,33 @@ public class UserDAO {
             transaction.commit();
 
             for (Object l : list) {
-                usern = (Usern) l;
+                user = (User) l;
             }
 
-            return usern;
+            return user;
             //тут  сессия закроется автоматичесски
             //session.close();
 
         } catch (HibernateException e) {
-            System.err.println("Select from Usern failed" + e.getMessage());
+            System.err.println("Select from User failed" + e.getMessage());
         }
-        return usern;
+        return user;
     }
 
 
-    public static void update(Usern usern) {
+    public static void update(User user) {
 
         try (Session session = createSessionFactory().openSession()) {
 
             Transaction transaction = session.getTransaction();
             transaction.begin();
 
-            Long nr = usern.getId();
-            Usern findUsern = findById(nr);
-            findUsern.setName("Petya");
+            Long nr = user.getId();
+            User findUser = findById(nr);
+            findUser.setName("Petya");
 
             //action
-            session.update(findUsern);
+            session.update(findUser);
 
             //close session/tr
             transaction.commit();
@@ -73,7 +72,7 @@ public class UserDAO {
     }
 
 
-    public static void save(Usern usern) {
+    public static void save(User user) {
 
         try (Session session = createSessionFactory().openSession()) {
 
@@ -81,7 +80,7 @@ public class UserDAO {
             transaction.begin();
 
             //action
-            session.save(usern);
+            session.save(user);
 
             transaction.commit();
 
@@ -91,14 +90,14 @@ public class UserDAO {
             //session.close();
 
         } catch (HibernateException e) {
-            System.err.println("Save Usern failed " + e.getMessage());
+            System.err.println("Save User failed " + e.getMessage());
         }
     }
 
     public static void delete(Long id) {
 
         try (Session session = createSessionFactory().openSession()) {
-            Query query = session.createQuery("Delete Usern where id = :Id");
+            Query query = session.createQuery("Delete User where id = :Id");
             Transaction transaction = session.getTransaction();
 
 
