@@ -47,8 +47,8 @@ public class DemoDAO {
         rooms.add(roomDAO.findById(1L));
         rooms.add(roomDAO.findById(5L));
 
-        order.getRoom().setId(10);
-        order.getUser().setId(20);
+        //order.getRoom().setId(10);//если оставим то получим нул пойнтер эксепшн
+        //order.getUser().setId(20);//если оставим то получим нул пойнтер эксепшн
         order.setDateFrom(new Date());
         order.setDateTo(new Date());
 

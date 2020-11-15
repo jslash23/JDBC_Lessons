@@ -16,7 +16,8 @@ public class Hotel {
     private List<Room> rooms;//hear we have Set in @OneToMany  but in Task List rooms
 
     //we use association @OneToMany with using generics
-    @OneToMany(targetEntity = Room.class, mappedBy = "hoteln")//another table(ROOM_PR) can acces
+    @OneToMany(targetEntity = Room.class, mappedBy = "hotel")//another table(ROOM_PR) can acces
+
 
 
     // to this table throw class hoteln

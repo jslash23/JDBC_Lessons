@@ -35,7 +35,7 @@ public class User {
 
 
     //we use association @OneToMany with using generics
-    @OneToMany (mappedBy = "usern")
+    @OneToMany (mappedBy = "user")
     //@JoinColumn(name = "ORDERPR_FK", nullable = false)
     public List<Order> getOrders() {
         return orders;

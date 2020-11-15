@@ -13,10 +13,10 @@ import java.util.List;
 public class HotelDAO {
 
      SessionFactory sessionFactory;
+    //Hotel hotel = new Hotel(1," "," ", " ", " ",null);
 
+    Hotel hotel = new Hotel();
     public  Hotel findById(Long id) {
-
-        Hotel hotel = new Hotel();
 
         try(Session session = createSessionFactory().openSession()){
             //
@@ -124,7 +124,6 @@ public class HotelDAO {
 
     public  Hotel findHotelByName(String name) {
 
-        Hotel hotel = new Hotel();
 
         try(Session session = createSessionFactory().openSession()){
             //
@@ -159,7 +158,6 @@ public class HotelDAO {
 
     public  Hotel findHotelByCity(String city) {
 
-        Hotel hotel = new Hotel();
 
         try(Session session = createSessionFactory().openSession()){
             //
