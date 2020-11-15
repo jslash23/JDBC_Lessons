@@ -18,8 +18,6 @@ public class Hotel {
     //we use association @OneToMany with using generics
     @OneToMany(targetEntity = Room.class, mappedBy = "hotel")//another table(ROOM_PR) can acces
 
-
-
     // to this table throw class hoteln
 
     public List<Room> getRooms()

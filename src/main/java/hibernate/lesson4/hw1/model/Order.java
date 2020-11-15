@@ -35,10 +35,18 @@ public class Order {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USERPR_FK", nullable = false)
     public User getUser() {return userOrdered;}
+    public void setUserOrdered(User userOrdered) {
+        this.userOrdered = userOrdered;
+    }
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ROOMPR_FK", nullable = false)
     public Room getRoom() {return room;}
+
+    public void setRoom(Room room) {
+        this.room = room;
+    }
 
     @Column(name = "DATEFROM")
     public Date getDateFrom() {return dateFrom;}
