@@ -14,9 +14,9 @@ import java.util.List;
 
 public class RoomDAO {
 
-    private static SessionFactory sessionFactory;
+    private  SessionFactory sessionFactory;
 
-    public static Room findById(Long id) {
+    public  Room findById(Long id) {
 
         Room room = new Room();
 
@@ -51,7 +51,7 @@ public class RoomDAO {
     }
 
 
-    public static void update(Room room) {
+    public  void update(Room room) {
 
         try(Session session = createSessionFactory().openSession()){
 
@@ -76,7 +76,7 @@ public class RoomDAO {
     }
 
 
-    public static void save (Room room) {
+    public  void save (Room room) {
 
         try(Session session = createSessionFactory().openSession()){
 
@@ -99,7 +99,7 @@ public class RoomDAO {
         }
     }
 
-    public static void delete(Long id) {
+    public  void delete(Long id) {
 
         try (Session session = createSessionFactory().openSession()) {
             Query query = session.createQuery("Delete Room where id = :Id");
@@ -124,7 +124,7 @@ public class RoomDAO {
 
     //methods from project Core
 
-    public static List<Room> findRooms(Filter filter){
+    public  List<Room> findRooms(Filter filter){
        List <Room> room = new ArrayList<>();
 
         try(Session session = createSessionFactory().openSession()){
@@ -161,7 +161,7 @@ public class RoomDAO {
         return room;
     }
 
-    private static SessionFactory createSessionFactory() {
+    private  SessionFactory createSessionFactory() {
         //singleton pattern нужен чтоб сесии не создавали множество раз
         //если сесион фактори нет то мы её инициализируем и возвращаем
         // если сесион фактори есть то создание не будет происходить а сразу вызовется готовый объект

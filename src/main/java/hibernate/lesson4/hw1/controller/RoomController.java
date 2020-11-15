@@ -9,9 +9,9 @@ import java.util.List;
 
 public class RoomController {
 
-    private static RoomService roomService = new RoomService();//
+    private final static  RoomService roomService = new RoomService();//
 
-    public static List<Room> findRooms(Filter filter) throws Exception {
+    public List<Room> findRooms(Filter filter) throws Exception {
         //return userService.registerUser(user);//тут должна быть логика
         return roomService.findRooms(filter);
     }

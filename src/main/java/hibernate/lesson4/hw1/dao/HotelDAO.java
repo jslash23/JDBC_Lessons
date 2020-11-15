@@ -12,9 +12,9 @@ import java.util.List;
 
 public class HotelDAO {
 
-    private static SessionFactory sessionFactory;
+     SessionFactory sessionFactory;
 
-    public static Hotel findById(Long id) {
+    public  Hotel findById(Long id) {
 
         Hotel hotel = new Hotel();
 
@@ -49,7 +49,7 @@ public class HotelDAO {
     }
 
 
-    public static void update(Hotel hotel) {
+    public  void update(Hotel hotel) {
 
         try(Session session = createSessionFactory().openSession()){
 
@@ -74,7 +74,7 @@ public class HotelDAO {
     }
 
 
-    public static void save (Hotel hotel) {
+    public  void save (Hotel hotel) {
 
         try(Session session = createSessionFactory().openSession()){
 
@@ -97,7 +97,7 @@ public class HotelDAO {
         }
         }
 
-    public static void delete(Long id) {
+    public  void delete(Long id) {
 
         try (Session session = createSessionFactory().openSession()) {
             Query query = session.createQuery("Delete Hotel where id = :Id");
@@ -122,7 +122,7 @@ public class HotelDAO {
 
 //Methods from project Core
 
-    public static Hotel findHotelByName(String name) {
+    public  Hotel findHotelByName(String name) {
 
         Hotel hotel = new Hotel();
 
@@ -157,7 +157,7 @@ public class HotelDAO {
     }
 
 
-    public static Hotel findHotelByCity(String city) {
+    public  Hotel findHotelByCity(String city) {
 
         Hotel hotel = new Hotel();
 
@@ -193,7 +193,7 @@ public class HotelDAO {
 
 
 
-    private static SessionFactory createSessionFactory() {
+    private  SessionFactory createSessionFactory() {
         //singleton pattern нужен чтоб сесии не создавали множество раз
         //если сесион фактори нет то мы её инициализируем и возвращаем
         // если сесион фактори есть то создание не будет происходить а сразу вызовется готовый объект

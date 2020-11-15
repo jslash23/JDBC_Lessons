@@ -12,9 +12,9 @@ import java.util.List;
 
 public class UserDAO {
 
-    private static SessionFactory sessionFactory;
+    private  SessionFactory sessionFactory;
 
-    public static User findById(Long id) {
+    public  User findById(Long id) {
 
         User user = new User();
 
@@ -48,7 +48,7 @@ public class UserDAO {
     }
 
 
-    public static void update(User user) {
+    public  void update(User user) {
 
         try (Session session = createSessionFactory().openSession()) {
 
@@ -72,7 +72,7 @@ public class UserDAO {
     }
 
 
-    public static void save(User user) {
+    public  void save(User user) {
 
         try (Session session = createSessionFactory().openSession()) {
 
@@ -94,7 +94,7 @@ public class UserDAO {
         }
     }
 
-    public static void delete(Long id) {
+    public  void delete(Long id) {
 
         try (Session session = createSessionFactory().openSession()) {
             Query query = session.createQuery("Delete User where id = :Id");
@@ -118,7 +118,7 @@ public class UserDAO {
     }
 
 
-    private static SessionFactory createSessionFactory() {
+    private  SessionFactory createSessionFactory() {
         //singleton pattern нужен чтоб сесии не создавали множество раз
         //если сесион фактори нет то мы её инициализируем и возвращаем
         // если сесион фактори есть то создание не будет происходить а сразу вызовется готовый объект

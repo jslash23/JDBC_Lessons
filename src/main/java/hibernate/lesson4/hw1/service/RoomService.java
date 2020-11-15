@@ -7,9 +7,11 @@ import java.util.List;
 
 public class RoomService {
 
+    final static   RoomDAO roomDAO = new RoomDAO();
+
     public List<Room> findRooms(Filter filter) throws Exception {
         //if ((validateCity(filter)))  не работает
-        return RoomDAO.findRooms(filter);
+        return roomDAO.findRooms(filter);
         //throw  new Exception("can't find you city or room!");
     }
 

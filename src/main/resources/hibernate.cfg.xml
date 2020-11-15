@@ -19,10 +19,10 @@
          <mapping class="hibernate.lesson3HW.Hotel"/>
 
          <<Подключаем маппинг классов 4го урока>-->
-        <mapping class="hibernate.lesson4.hw1.Hoteln"/>
-        <mapping class="hibernate.lesson4.hw1.Ordern"/>
-        <mapping class="hibernate.lesson4.hw1.Roomn"/>
-        <mapping class="hibernate.lesson4.hw1.Usern"/>
+        <mapping class="hibernate.lesson4.hw1.model.Hotel"/>
+        <mapping class="hibernate.lesson4.hw1.model.Order"/>
+        <mapping class="hibernate.lesson4.hw1.model.Room"/>
+        <mapping class="hibernate.lesson4.hw1.model.User"/>
 
 
 </session-factory>

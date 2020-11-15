@@ -12,9 +12,9 @@ import java.util.List;
 
 public class OrderDAO {
 
-    private static SessionFactory sessionFactory;
+    private  SessionFactory sessionFactory;
 
-    public static Order findById(Long id) {
+    public  Order findById(Long id) {
 
         Order order = new Order();
 
@@ -48,7 +48,7 @@ public class OrderDAO {
     }
 
 
-    public static void update(Order order) {
+    public  void update(Order order) {
 
         try (Session session = createSessionFactory().openSession()) {
 
@@ -72,7 +72,7 @@ public class OrderDAO {
     }
 
 
-    public static void save(Order order) {
+    public  void save(Order order) {
 
         try (Session session = createSessionFactory().openSession()) {
 
@@ -94,7 +94,7 @@ public class OrderDAO {
         }
     }
 
-    public static void delete(Long id) {
+    public  void delete(Long id) {
 
         try (Session session = createSessionFactory().openSession()) {
             Query query = session.createQuery("Delete Order where id = :Id");
@@ -118,7 +118,7 @@ public class OrderDAO {
     }
 //methods from project Core
 
-    public static void bookRoom (Order order) {
+    public  void bookRoom (Order order) {
 
         try(Session session = createSessionFactory().openSession()){
 
@@ -141,7 +141,7 @@ public class OrderDAO {
         }
     }
 
-    private static SessionFactory createSessionFactory() {
+    private  SessionFactory createSessionFactory() {
         //singleton pattern нужен чтоб сесии не создавали множество раз
         //если сесион фактори нет то мы её инициализируем и возвращаем
         // если сесион фактори есть то создание не будет происходить а сразу вызовется готовый объект

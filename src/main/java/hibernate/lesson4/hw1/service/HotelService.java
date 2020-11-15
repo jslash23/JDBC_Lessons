@@ -3,12 +3,16 @@ package hibernate.lesson4.hw1.service;
 import hibernate.lesson4.hw1.dao.HotelDAO;
 import hibernate.lesson4.hw1.model.Hotel;
 
+
+
 public class HotelService   {
+
+  final static   HotelDAO hotelDAO = new HotelDAO();
 
     public  Hotel findHotelByName  (String name) throws Exception {
 
             if (ValidateName(name)){
-            return HotelDAO.findHotelByName(name);
+            return hotelDAO.findHotelByName(name);
 
         }
         throw  new Exception("this fild can't be null!");
@@ -26,7 +30,7 @@ public class HotelService   {
     public Hotel findHotelByCity (String city) throws Exception {
 
             if (ValidateCity(city)) {
-                return HotelDAO.findHotelByCity(city);
+                return hotelDAO.findHotelByCity(city);
         }
         throw new Exception ("you filds can't be null!");
     }
