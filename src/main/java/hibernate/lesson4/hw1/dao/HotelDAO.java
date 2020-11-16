@@ -6,52 +6,42 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
-import  org.hibernate.query.Query;
+import org.hibernate.query.Query;
 
 import java.util.List;
 
 public class HotelDAO {
 
-     SessionFactory sessionFactory;
-    //Hotel hotel = new Hotel(1," "," ", " ", " ",null);
-
+    SessionFactory sessionFactory;
     Hotel hotel = new Hotel();
-    public  Hotel findById(Long id) {
 
-        try(Session session = createSessionFactory().openSession()){
+    public Hotel findById(Long id) {
+
+        try (Session session = createSessionFactory().openSession()) {
             //
             Query query = session.createQuery("from Hotel where id = :Id");
             Transaction transaction = session.getTransaction();
             transaction.begin();
-
             //action
-
-            query.setParameter("Id",id);
-            List list= query.list();
-
-
+            query.setParameter("Id", id);
+            List list = query.list();
             //close session/tr
             transaction.commit();
 
             for (Object l : list) {
                 hotel = (Hotel) l;
             }
-
             return hotel;
-            //тут  сессия закроется автоматичесски
-            //session.close();
-
-        }
-        catch (HibernateException e){
+        } catch (HibernateException e) {
             System.err.println("Select from Hotel failed" + e.getMessage());
         }
         return hotel;
     }
 
 
-    public  void update(Hotel hotel) {
+    public void update(Hotel hotel) {
 
-        try(Session session = createSessionFactory().openSession()){
+        try (Session session = createSessionFactory().openSession()) {
 
             Transaction transaction = session.getTransaction();
             transaction.begin();
@@ -59,84 +49,58 @@ public class HotelDAO {
             Long nr = hotel.getId();
             Hotel findHotel = findById(nr);
             findHotel.setName("Lux");
-
             //action
             session.update(findHotel);
-
             //close session/tr
             transaction.commit();
-
-            //тут  сессия закроется автоматичесски
-        }
-        catch (HibernateException e){
+        } catch (HibernateException e) {
             System.out.println("Nothing update!" + e.getMessage());
         }
     }
 
 
-    public  void save (Hotel hotel) {
+    public void save(Hotel hotel) {
 
-        try(Session session = createSessionFactory().openSession()){
+        try (Session session = createSessionFactory().openSession()) {
 
             Transaction transaction = session.getTransaction();
             transaction.begin();
-
             //action
             session.save(hotel);
-
             transaction.commit();
-
             System.out.println("Save done ");
 
-            //тут  сессия закроется автоматичесски
-            //session.close();
+        } catch (HibernateException e) {
+            System.err.println("cath worked " + "Save Hotel failed!!!" + e.getMessage());
+        }
+    }
 
-        }
-        catch (HibernateException e){
-            System.err.println("Save Hotel failed " + e.getMessage());
-        }
-        }
-
-    public  void delete(Long id) {
+    public void delete(Long id) {
 
         try (Session session = createSessionFactory().openSession()) {
             Query query = session.createQuery("Delete Hotel where id = :Id");
             Transaction transaction = session.getTransaction();
 
-
             transaction.begin();
-
             //action
-
             query.setParameter("Id", id);
             query.executeUpdate();
-
             //close session/tr
             transaction.commit();
-
-            //тут  сессия закроется автоматичесски
-            //session.close();
-
         }
     }
 
 //Methods from project Core
 
-    public  Hotel findHotelByName(String name) {
+    public Hotel findHotelByName(String name) {
 
-
-        try(Session session = createSessionFactory().openSession()){
-            //
+        try (Session session = createSessionFactory().openSession()) {
             Query query = session.createQuery("from Hotel where name = :Name");
             Transaction transaction = session.getTransaction();
             transaction.begin();
-
             //action
-
-            query.setParameter("Name",name);
-            List list= query.list();
-
-
+            query.setParameter("Name", name);
+            List list = query.list();
             //close session/tr
             transaction.commit();
 
@@ -145,56 +109,36 @@ public class HotelDAO {
             }
 
             return hotel;
-            //тут  сессия закроется автоматичесски
-            //session.close();
 
-        }
-        catch (HibernateException e){
+        } catch (HibernateException e) {
             System.err.println("Select from Hotel failed" + e.getMessage());
         }
         return hotel;
     }
 
+    public Hotel findHotelByCity(String city) {
+        try (Session session = createSessionFactory().openSession()) {
 
-    public  Hotel findHotelByCity(String city) {
-
-
-        try(Session session = createSessionFactory().openSession()){
-            //
             Query query = session.createQuery("from Hotel where city = :City");
             Transaction transaction = session.getTransaction();
             transaction.begin();
-
             //action
-
             query.setParameter("City", city);
-            List list= query.list();
-
-
+            List list = query.list();
             //close session/tr
             transaction.commit();
-
             for (Object l : list) {
                 hotel = (Hotel) l;
             }
-
             return hotel;
-            //тут  сессия закроется автоматичесски
-            //session.close();
-
-        }
-        catch (HibernateException e){
+        } catch (HibernateException e) {
             System.err.println("Select from Hotel failed" + e.getMessage());
         }
         return hotel;
     }
 
 
-
-    private  SessionFactory createSessionFactory() {
-        //singleton pattern нужен чтоб сесии не создавали множество раз
-        //если сесион фактори нет то мы её инициализируем и возвращаем
-        // если сесион фактори есть то создание не будет происходить а сразу вызовется готовый объект
+    private SessionFactory createSessionFactory() {
         if (sessionFactory == null) {
             sessionFactory = new Configuration().configure().buildSessionFactory();
         }

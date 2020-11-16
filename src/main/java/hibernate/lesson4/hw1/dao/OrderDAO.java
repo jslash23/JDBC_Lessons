@@ -12,35 +12,25 @@ import java.util.List;
 
 public class OrderDAO {
 
-    private  SessionFactory sessionFactory;
+    private SessionFactory sessionFactory;
 
-    public  Order findById(Long id) {
-
+    public Order findById(Long id) {
         Order order = new Order();
 
         try (Session session = createSessionFactory().openSession()) {
-            //
+
             Query query = session.createQuery("from Order where id = :Id");
             Transaction transaction = session.getTransaction();
             transaction.begin();
-
             //action
-
             query.setParameter("Id", id);
             List list = query.list();
-
-
             //close session/tr
             transaction.commit();
-
             for (Object l : list) {
                 order = (Order) l;
             }
-
             return order;
-            //тут  сессия закроется автоматичесски
-            //session.close();
-
         } catch (HibernateException e) {
             System.err.println("Select from Order failed" + e.getMessage());
         }
@@ -48,10 +38,9 @@ public class OrderDAO {
     }
 
 
-    public  void update(Order order) {
+    public void update(Order order) {
 
         try (Session session = createSessionFactory().openSession()) {
-
             Transaction transaction = session.getTransaction();
             transaction.begin();
 
@@ -61,90 +50,63 @@ public class OrderDAO {
 
             //action
             session.update(findOrder);
-
             //close session/tr
             transaction.commit();
 
-            //тут  сессия закроется автоматичесски
         } catch (HibernateException e) {
             System.out.println("Nothing update!" + e.getMessage());
         }
     }
 
 
-    public  void save(Order order) {
+    public void save(Order order) {
 
         try (Session session = createSessionFactory().openSession()) {
-
             Transaction transaction = session.getTransaction();
             transaction.begin();
-
             //action
             session.save(order);
-
             transaction.commit();
-
             System.out.println("Save done ");
-
-            //тут  сессия закроется автоматичесски
-            //session.close();
 
         } catch (HibernateException e) {
             System.err.println("Save Order failed " + e.getMessage());
         }
     }
 
-    public  void delete(Long id) {
+    public void delete(Long id) {
 
         try (Session session = createSessionFactory().openSession()) {
+
             Query query = session.createQuery("Delete Order where id = :Id");
             Transaction transaction = session.getTransaction();
-
-
             transaction.begin();
-
             //action
-
             query.setParameter("Id", id);
             query.executeUpdate();
-
             //close session/tr
             transaction.commit();
-
-            //тут  сессия закроется автоматичесски
-            //session.close();
-
         }
     }
 //methods from project Core
 
-    public  void bookRoom (Order order) {
+    public void bookRoom(Order order) {
 
-        try(Session session = createSessionFactory().openSession()){
+        try (Session session = createSessionFactory().openSession()) {
 
             Transaction transaction = session.getTransaction();
             transaction.begin();
-
             //action
             session.save(order);
-
             transaction.commit();
-
             System.out.println("Save done ");
 
-            //тут  сессия закроется автоматичесски
-            //session.close();
-
-        }
-        catch (HibernateException e){
+        } catch (HibernateException e) {
             System.err.println("Book order failed" + e.getMessage());
         }
     }
 
-    private  SessionFactory createSessionFactory() {
-        //singleton pattern нужен чтоб сесии не создавали множество раз
-        //если сесион фактори нет то мы её инициализируем и возвращаем
-        // если сесион фактори есть то создание не будет происходить а сразу вызовется готовый объект
+    private SessionFactory createSessionFactory() {
         if (sessionFactory == null) {
             sessionFactory = new Configuration().configure().buildSessionFactory();
         }

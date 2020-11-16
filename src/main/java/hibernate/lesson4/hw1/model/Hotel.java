@@ -1,10 +1,11 @@
 package hibernate.lesson4.hw1.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "HOTELPR" )
+@Table(name = "HOTELPR")
 
 public class Hotel {
 
@@ -13,21 +14,24 @@ public class Hotel {
     private String country;
     private String city;
     private String street;
-    private List<Room> rooms;//hear we have Set in @OneToMany  but in Task List rooms
+    private List<Room> rooms = new ArrayList<>();
 
     //we use association @OneToMany with using generics
-    @OneToMany(targetEntity = Room.class, mappedBy = "hotel")//another table(ROOM_PR) can acces
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
+            targetEntity = Room.class, mappedBy = "hotel")//another table(ROOM_PR) can acces
 
-    // to this table throw class hoteln
+    // to this table throw class hotel
 
-    public List<Room> getRooms()
-    {return rooms;}
+    public List<Room> getRooms() {
+        return rooms;
+    }
 
-    public void setRooms(List rooms){this.rooms = rooms;}
+    public void setRooms(List rooms) {
+        this.rooms = rooms;
+    }
 
     //Поле id
-    @Id/////
-    //////name = "HOTEL_N_SEQ" мы сами придумали, sequenceName = "HOTEL_SEQ" взяли из БД
+    @Id
     @SequenceGenerator(name = "HOTEL_N_SEQ", sequenceName = "HOTELPR_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "HOTEL_N_SEQ")
 
@@ -39,9 +43,9 @@ public class Hotel {
     public void setId(long id) {
         this.id = id;
     }
-    //@GeneratedValue(strategy = GenerationType.AUTO)
 
-    //Поле nameOfGuests name
+
+
     @Column(name = "NAME")
     public String getName() {
         return name;
@@ -52,7 +56,6 @@ public class Hotel {
     }
 
 
-    //Поле country
     @Column(name = "COUNTRY")
     public String getCountry() {
         return country;
@@ -62,7 +65,6 @@ public class Hotel {
         this.country = country;
     }
 
-    //Поле nameOfGuests city
     @Column(name = "CITY")
     public String getCity() {
         return city;
@@ -72,8 +74,6 @@ public class Hotel {
         this.city = city;
     }
 
-
-    //Поле street
     @Column(name = "STREET")
     public String getStreet() {
         return street;

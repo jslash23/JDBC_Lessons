@@ -11,7 +11,7 @@ public class Filter {
     private boolean petsAllowed;
     private Date dateAvableFrom;
 
-    //вместо поля   private Hotell hotel пишем
+    //вместо поля   private Hotel hotel пишем
     private String country;
     private String city;
 
@@ -23,6 +23,62 @@ public class Filter {
         this.petsAllowed = petsAllowed;
         this.dateAvableFrom = dateAvableFrom;
         this.country = country;
+        this.city = city;
+    }
+
+    public int getNumbersOfGuests() {
+        return numbersOfGuests;
+    }
+
+    public void setNumbersOfGuests(int numbersOfGuests) {
+        this.numbersOfGuests = numbersOfGuests;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public boolean isBreakfastIncluded() {
+        return breakfastIncluded;
+    }
+
+    public void setBreakfastIncluded(boolean breakfastIncluded) {
+        this.breakfastIncluded = breakfastIncluded;
+    }
+
+    public boolean isPetsAllowed() {
+        return petsAllowed;
+    }
+
+    public void setPetsAllowed(boolean petsAllowed) {
+        this.petsAllowed = petsAllowed;
+    }
+
+    public Date getDateAvableFrom() {
+        return dateAvableFrom;
+    }
+
+    public void setDateAvableFrom(Date dateAvableFrom) {
+        this.dateAvableFrom = dateAvableFrom;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
         this.city = city;
     }
 
@@ -39,59 +95,5 @@ public class Filter {
                 '}';
     }
 
-    public int getNumbersOfGuests() {
-        return numbersOfGuests;
-    }
 
-    public double getPrice() {
-        return price;
-    }
-
-    public boolean isBreakfastIncluded() {
-        return breakfastIncluded;
-    }
-
-    public boolean isPetsAllowed() {
-        return petsAllowed;
-    }
-
-    public Date getDateAvableFrom() {
-        return dateAvableFrom;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setNumbersOfGuests(int numbersOfGuests) {
-        this.numbersOfGuests = numbersOfGuests;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public void setBreakfastIncluded(boolean breakfastIncluded) {
-        this.breakfastIncluded = breakfastIncluded;
-    }
-
-    public void setPetsAllowed(boolean petsAllowed) {
-        this.petsAllowed = petsAllowed;
-    }
-
-    public void setDateAvableFrom(Date dateAvableFrom) {
-        this.dateAvableFrom = dateAvableFrom;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
 }

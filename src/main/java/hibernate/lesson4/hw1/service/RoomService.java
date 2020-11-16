@@ -7,18 +7,16 @@ import java.util.List;
 
 public class RoomService {
 
-    final static   RoomDAO roomDAO = new RoomDAO();
+    final static RoomDAO roomDAO = new RoomDAO();
 
     public List<Room> findRooms(Filter filter) throws Exception {
-        //if ((validateCity(filter)))  не работает
+
         return roomDAO.findRooms(filter);
-        //throw  new Exception("can't find you city or room!");
+
     }
 
 
-
     private boolean validateCity(Filter filter) throws Exception {
-        //Если поле пустое или не содержит буквы и цифры то кидаем  Эксепшн
         if (filter.getCity().isEmpty() || filter.getCity() == null ||
                 !filter.getCity().matches("^[а-яА-ЯёЁa-zA-Z0-9]+$")) {
             throw new Exception("field city contains invalid data");
@@ -27,5 +25,5 @@ public class RoomService {
     }
 
 
-    }
+}
 

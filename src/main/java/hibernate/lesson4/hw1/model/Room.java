@@ -18,29 +18,31 @@ public class Room {
 
     @Column(name = "ID")
 
-    //Поле id
-    @Id/////
+    @Id
 
-    //////name = "ROOMPR_N_SEQ" мы сами придумали, sequenceName = "ROOMPR_SEQ" взяли из БД
     @SequenceGenerator(name = "ROOM_N_SEQ", sequenceName = "ROOMPR_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ROOM_N_SEQ")
     public long getId() {
         return id;
     }
+
     public void setId(long id) {
         this.id = id;
     }
 
-    //we use association @ManyToOne with using generics
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "HOTELPR_FK", nullable = false)
 
-    public Hotel getHotel() {return hotel;}
+    public Hotel getHotel() {
+        return hotel;
+    }
+
     public void setHotel(Hotel hotel) {
         this.hotel = hotel;
     }
 
-    //Поле nameOfGuests
+
     @Column(name = "NUMBEROFGUESTS")
     public int getNumberOfGuests() {
         return numberOfGuests;
@@ -50,7 +52,7 @@ public class Room {
         this.numberOfGuests = numberOfGuests;
     }
 
-    //Поле price
+
     @Column(name = "PRICE")
     public double getPrice() {
         return price;
@@ -61,7 +63,6 @@ public class Room {
     }
 
 
-    //ПолеBreakfastIncluded
     @Column(name = "BREAKFASTINCLUDED")
     public int getBreakfastIncluded() {
         return breakfastIncluded;
@@ -72,7 +73,6 @@ public class Room {
     }
 
 
-    //Поле PetsAllawed
     @Column(name = "PETSALLOWED")
     public int getPetsAllowed() {
         return petsAllowed;
@@ -83,7 +83,6 @@ public class Room {
     }
 
 
-    //Поле DateAvailableFrom
     @Column(name = "DATEAVAILABLEFROM")
     @Temporal(value = TemporalType.DATE)
     public Date getDateAvailableFrom() {
@@ -93,8 +92,6 @@ public class Room {
     public void setDateAvailableFrom(Date dateAvailableFrom) {
         this.dateAvailableFrom = dateAvailableFrom;
     }
-
-    //Поле Hotel ссылающееся на класс Hotel
 
     @Override
     public String toString() {

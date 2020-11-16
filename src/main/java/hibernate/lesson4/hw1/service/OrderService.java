@@ -7,19 +7,18 @@ import hibernate.lesson4.hw1.model.UserType;
 
 public class OrderService {
 
-    final static  OrderDAO orderDAO = new OrderDAO();
+    final static OrderDAO orderDAO = new OrderDAO();
 
-    public  void bookRoom(Order order, UserType usType) throws Exception {
+    public void bookRoom(Order order, UserType usType) throws Exception {
 
-            if (usType.equals(UserType.ADMIN)) {
-                orderDAO.bookRoom(order);
-            }
-        else  {
+        if (usType.equals(UserType.ADMIN)) {
+            orderDAO.bookRoom(order);
+        } else {
             System.err.println("You havn't rights for modify repository");
         }
     }
 
-    private  boolean ValidateroomId(long roomId) {
+    private boolean ValidateroomId(long roomId) {
         return true;
     }
 
